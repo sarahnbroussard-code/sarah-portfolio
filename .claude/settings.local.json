@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.sarahbroussard.com)",
+      "WebFetch(domain:www.nicolearoberts.com)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5177/)"
+    ]
+  }
+}
