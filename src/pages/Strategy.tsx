@@ -1,7 +1,7 @@
 import Page from '../components/Page'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { TextScramble, TextCascade } from '../components/KineticText'
+import { TextCascade } from '../components/KineticText'
 
 const tools = [
   { name: 'Windsurf', desc: 'AI-native IDE for rapid prototyping', icon: '⚡' },
@@ -32,7 +32,7 @@ export default function Strategy() {
 
           <div className="relative mx-auto max-w-6xl text-left">
             <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-              <TextScramble text="DESIGN LEADERSHIP JOURNEY" />
+              DESIGN LEADERSHIP JOURNEY
             </p>
             <h1 className="mb-7 max-w-4xl text-[clamp(36px,4.2vw,58px)] font-bold leading-[1.06] tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
               <TextCascade>Over 15+ years leading design teams through two IPOs and multiple acquisitions</TextCascade>
@@ -49,7 +49,7 @@ export default function Strategy() {
             <div className="mb-16 grid gap-8 lg:grid-cols-2">
               <div>
                 <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-                  <TextScramble text="CURRENT ROLE" />
+                  CURRENT ROLE
                 </p>
                 <h2 className="mb-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   Senior Product Designer at Atlassian
@@ -90,7 +90,7 @@ export default function Strategy() {
             <div className="mb-14 flex items-end justify-between">
               <div>
                 <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-                  <TextScramble text="AI-POWERED DESIGN REVOLUTION" />
+                  AI-POWERED DESIGN REVOLUTION
                 </p>
                 <h2 className="text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   Empowering High-Performance Design Teams
@@ -130,7 +130,7 @@ export default function Strategy() {
         <section className="relative border-y border-zinc-800/60 bg-zinc-950 px-5 py-24 sm:px-10">
           <div className="mx-auto max-w-6xl">
             <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-              <TextScramble text="AI-ENHANCED DESIGN SPRINT" />
+              AI-ENHANCED DESIGN SPRINT
             </p>
             <h2 className="mb-14 text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
               A Five-Day Methodology
@@ -165,7 +165,7 @@ export default function Strategy() {
             <div className="mb-12 grid gap-10 lg:grid-cols-2">
               <div>
                 <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-                  <TextScramble text="ENTERPRISE SCALE & BUSINESS IMPACT" />
+                  ENTERPRISE SCALE & BUSINESS IMPACT
                 </p>
                 <h2 className="text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   Career Impact Summary
@@ -195,24 +195,7 @@ export default function Strategy() {
           </div>
         </section>
 
-        {/* TESTIMONIAL */}
-        <section className="relative border-y border-zinc-800/60 bg-zinc-900/20 px-5 py-24 sm:px-10">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-8 text-[18px] font-medium italic leading-[1.7] text-zinc-300" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-              "Sarah is truly gifted. She has a unique blend of creativity, passion, organization and management skills that puts her at the top of her profession. She very successfully grew a creative design team and instilled in them a high degree of professionalism and customer awareness. Sarah has always over performed."
-            </p>
-            <div className="flex items-center justify-center gap-3">
-              <div className="h-px w-12 bg-zinc-700" />
-              <div>
-                <p className="text-[13px] font-semibold text-white">Paul Morgan</p>
-                <p className="text-[12px] text-zinc-500">CTO & VP Engineering at Khan Academy</p>
-              </div>
-              <div className="h-px w-12 bg-zinc-700" />
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
+{/* CTA */}
         <section className="relative overflow-hidden bg-zinc-950 px-5 py-24 text-center sm:px-10">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/30 blur-[150px]" />

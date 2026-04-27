@@ -10,9 +10,10 @@ interface ExpensiveCardProps {
   heroImage?: string
   slug: string
   index: number
+  light?: boolean
 }
 
-export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, slug, index }: ExpensiveCardProps) {
+export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, slug, index, light }: ExpensiveCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [rx, setRx] = useState(0)
   const [ry, setRy] = useState(0)
@@ -31,8 +32,22 @@ export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, 
   }
   const onLeave = () => { setRx(0); setRy(0); setGx(50); setGy(50) }
 
+  const cardBg = light ? 'border-zinc-200 bg-white shadow-sm' : 'border-zinc-800/60 bg-zinc-950'
+  const gradientOverlay = light
+    ? 'bg-gradient-to-t from-white/90 via-white/20 to-transparent'
+    : 'bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent'
+  const tagStyle = light
+    ? 'border-zinc-200 bg-zinc-100 text-zinc-600'
+    : 'border-zinc-700/40 bg-zinc-900/60 text-zinc-400'
+  const yearColor = light ? 'text-zinc-400' : 'text-zinc-600'
+  const titleColor = light ? 'text-zinc-900 group-hover:text-zinc-700' : 'text-white group-hover:text-zinc-200'
+  const subtitleColor = light ? 'text-zinc-500' : 'text-zinc-500'
+  const hoverGlow = light
+    ? `radial-gradient(600px circle at ${gx}% ${gy}%, rgba(0,0,0,0.04), transparent 40%)`
+    : `radial-gradient(600px circle at ${gx}% ${gy}%, rgba(255,255,255,0.07), transparent 40%)`
+
   return (
-    <Link to={`/case-study/${slug}`} className="block" style={{ perspective: '1000px' }}>
+    <Link to={`/case-study/${slug}`} className="block h-full" style={{ perspective: '1000px' }}>
       <motion.div
         ref={cardRef}
         onMouseMove={onMove}
@@ -43,27 +58,27 @@ export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, 
         transition={{ duration: 0.7, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
         animate={{ rotateX: rx, rotateY: ry }}
         style={{ transformStyle: 'preserve-3d' }}
-        className="group relative overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-950"
+        className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border ${cardBg}`}
       >
         <div
           className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-          style={{ background: `radial-gradient(600px circle at ${gx}% ${gy}%, rgba(255,255,255,0.07), transparent 40%)` }}
+          style={{ background: hoverGlow }}
         />
-        <div className="relative aspect-[16/10] overflow-hidden">
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
           {heroImage && (
             <img src={heroImage} alt={title} className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
+          <div className={`absolute inset-0 ${gradientOverlay}`} />
         </div>
-        <div className="relative p-6">
+        <div className="relative flex flex-1 flex-col p-6">
           <div className="mb-3 flex items-center gap-2.5">
             {tags.slice(0, 2).map(t => (
-              <span key={t} className="rounded-full border border-zinc-700/40 bg-zinc-900/60 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 backdrop-blur-sm">{t}</span>
+              <span key={t} className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm ${tagStyle}`}>{t}</span>
             ))}
-            <span className="text-[11px] text-zinc-600">{year}</span>
+            <span className={`text-[11px] ${yearColor}`}>{year}</span>
           </div>
-          <h3 className="text-lg font-semibold tracking-tight text-white transition-colors group-hover:text-zinc-200">{title}</h3>
-          <p className="mt-1 text-sm leading-relaxed text-zinc-500">{subtitle}</p>
+          <h3 className={`text-lg font-semibold tracking-tight transition-colors ${titleColor}`}>{title}</h3>
+          <p className={`mt-1 text-sm leading-relaxed ${subtitleColor}`}>{subtitle}</p>
         </div>
       </motion.div>
     </Link>

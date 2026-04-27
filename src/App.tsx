@@ -49,7 +49,7 @@ export default function App() {
         <Route
           path="/leadership"
           element={
-            <Layout>
+            <Layout fullWidth>
               <Leadership />
             </Layout>
           }

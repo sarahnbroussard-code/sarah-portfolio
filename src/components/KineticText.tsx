@@ -22,13 +22,13 @@ export function TextScramble({ text, className = '' }: { text: string; className
   useEffect(() => {
     if (!inView) return
     let frame = 0
-    const totalFrames = text.length * 3 + 10
+    const totalFrames = text.length * 4 + 16
     const interval = setInterval(() => {
       const progress = Math.min((frame / totalFrames) * text.length, text.length)
       setDisplay(scrambleOnce(text, progress))
       frame++
       if (frame > totalFrames) clearInterval(interval)
-    }, 40)
+    }, 65)
     return () => clearInterval(interval)
   }, [inView, text])
 
@@ -38,7 +38,7 @@ export function TextScramble({ text, className = '' }: { text: string; className
 export function TextCascade({
   children,
   className = '',
-  stagger = 0.04,
+  stagger = 0.01,
 }: {
   children: string
   className?: string
