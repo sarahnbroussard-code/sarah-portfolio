@@ -11,9 +11,10 @@ interface ExpensiveCardProps {
   slug: string
   index: number
   light?: boolean
+  featured?: boolean
 }
 
-export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, slug, index, light }: ExpensiveCardProps) {
+export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, slug, index, light, featured }: ExpensiveCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [rx, setRx] = useState(0)
   const [ry, setRy] = useState(0)
@@ -64,22 +65,54 @@ export default function ExpensiveCard({ title, subtitle, tags, year, heroImage, 
           className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
           style={{ background: hoverGlow }}
         />
-        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
+        {/* Hero image */}
+        <div className={`relative w-full shrink-0 overflow-hidden ${featured ? 'aspect-[16/7]' : 'aspect-[16/10]'}`}>
           {heroImage && (
             <img src={heroImage} alt={title} className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" loading="lazy" />
           )}
           <div className={`absolute inset-0 ${gradientOverlay}`} />
+          {/* Featured: overlay title directly on image */}
+          {featured && (
+            <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12">
+              <div className="mb-4 flex flex-wrap gap-2">
+                {tags.map(t => (
+                  <span key={t} className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm ${tagStyle}`}>{t}</span>
+                ))}
+              </div>
+              <h3
+                className={`text-[clamp(24px,3vw,46px)] font-bold leading-tight tracking-tight transition-colors ${titleColor}`}
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                {title}
+              </h3>
+              <p className={`mt-2 text-[14px] italic leading-relaxed ${subtitleColor}`}
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                {subtitle}
+              </p>
+              <div className="mt-5 flex items-center justify-between">
+                <span className={`text-[10px] font-medium uppercase tracking-[0.2em] ${yearColor}`}>{year}</span>
+                <motion.span
+                  className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#c084fc] opacity-0 transition-opacity group-hover:opacity-100"
+                >
+                  View Case Study →
+                </motion.span>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="relative flex flex-1 flex-col p-6">
-          <div className="mb-3 flex items-center gap-2.5">
-            {tags.slice(0, 2).map(t => (
-              <span key={t} className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm ${tagStyle}`}>{t}</span>
-            ))}
-            <span className={`text-[11px] ${yearColor}`}>{year}</span>
+        {/* Normal card body — only shown when not featured */}
+        {!featured && (
+          <div className="relative flex flex-1 flex-col p-6">
+            <div className="mb-3 flex items-center gap-2.5">
+              {tags.slice(0, 2).map(t => (
+                <span key={t} className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm ${tagStyle}`}>{t}</span>
+              ))}
+              <span className={`text-[11px] ${yearColor}`}>{year}</span>
+            </div>
+            <h3 className={`text-lg font-semibold tracking-tight transition-colors ${titleColor}`}>{title}</h3>
+            <p className={`mt-1 text-sm leading-relaxed ${subtitleColor}`}>{subtitle}</p>
           </div>
-          <h3 className={`text-lg font-semibold tracking-tight transition-colors ${titleColor}`}>{title}</h3>
-          <p className={`mt-1 text-sm leading-relaxed ${subtitleColor}`}>{subtitle}</p>
-        </div>
+        )}
       </motion.div>
     </Link>
   )

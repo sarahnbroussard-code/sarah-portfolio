@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useScroll } from 'framer-motion'
+import { motion, useScroll, AnimatePresence } from 'framer-motion'
 
 const ACCENT = '#18181B'
+
+// ── helpers ───────────────────────────────────────────────────────────────────
 
 function FadeIn({
   children,
@@ -36,6 +39,32 @@ function SectionLabel({ n, text }: { n: string; text: string }) {
   )
 }
 
+// ── Bullet list helpers ────────────────────────────────────────────────────────
+
+function Bullet({ children, size = 'md' }: { children: React.ReactNode; size?: 'sm' | 'md' }) {
+  return (
+    <li className={`flex items-start gap-3 ${size === 'sm' ? 'text-[17px]' : 'text-[18px]'} leading-relaxed text-zinc-600`}>
+      <span
+        className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full"
+        style={{ background: ACCENT }}
+      />
+      <span>{children}</span>
+    </li>
+  )
+}
+
+function BulletList({ items, size = 'md' }: { items: string[]; size?: 'sm' | 'md' }) {
+  return (
+    <ul className="space-y-2.5 p-0 list-none">
+      {items.map((item, i) => (
+        <Bullet key={i} size={size}>{item}</Bullet>
+      ))}
+    </ul>
+  )
+}
+
+// ── Dashboard mockup ──────────────────────────────────────────────────────────
+
 function DashboardMockup() {
   return (
     <motion.div
@@ -45,7 +74,6 @@ function DashboardMockup() {
       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
       className="overflow-hidden rounded-2xl border border-zinc-200 shadow-[0_24px_80px_-12px_rgba(0,0,0,0.14)]"
     >
-      {/* Browser chrome */}
       <div className="flex items-center gap-2 border-b border-zinc-100 bg-white px-4 py-3">
         <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
@@ -54,10 +82,7 @@ function DashboardMockup() {
           sweatpals.app / dashboard
         </div>
       </div>
-
-      {/* Sidebar + main layout */}
       <div className="flex bg-[#F2F2F7]">
-        {/* Sidebar */}
         <div className="hidden w-44 flex-shrink-0 border-r border-zinc-200 bg-white p-4 sm:block">
           <div className="mb-5 flex items-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-bold text-white" style={{ background: ACCENT }}>
@@ -69,28 +94,19 @@ function DashboardMockup() {
             <div
               key={item}
               className="mb-1 rounded-md px-3 py-1.5 text-[11px] font-medium"
-              style={
-                i === 0
-                  ? { background: 'rgba(24,24,27,0.08)', color: ACCENT }
-                  : { color: '#636366' }
-              }
+              style={i === 0 ? { background: 'rgba(24,24,27,0.08)', color: ACCENT } : { color: '#636366' }}
             >
               {item}
             </div>
           ))}
         </div>
-
-        {/* Main */}
         <div className="flex-1 p-4">
-          {/* Alert */}
           <div className="mb-4 flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5">
             <span className="text-[11px] font-medium text-amber-800 flex-1">
               ⚠ <strong>3 members</strong> haven't attended in 45+ days — they may be at churn risk.
             </span>
             <span className="text-[11px] font-semibold whitespace-nowrap" style={{ color: ACCENT }}>View Members →</span>
           </div>
-
-          {/* KPI row */}
           <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
               { label: 'Monthly Revenue', value: '$4,820', delta: '+18%', up: true },
@@ -103,33 +119,19 @@ function DashboardMockup() {
                 <p className="text-[18px] font-bold leading-none tracking-tight text-zinc-900">{kpi.value}</p>
                 <span
                   className="mt-1.5 inline-block rounded-full px-2 py-0.5 text-[9px] font-bold"
-                  style={{
-                    background: kpi.up ? '#30D15820' : '#FF453A20',
-                    color: kpi.up ? '#30D158' : '#FF453A',
-                  }}
+                  style={{ background: kpi.up ? '#30D15820' : '#FF453A20', color: kpi.up ? '#30D158' : '#FF453A' }}
                 >
                   {kpi.up ? '↑' : '↓'} {kpi.delta}
                 </span>
               </div>
             ))}
           </div>
-
-          {/* Mid row */}
           <div className="grid grid-cols-3 gap-3">
-            {/* Revenue chart */}
             <div className="col-span-2 rounded-xl border border-zinc-100 bg-white p-4 shadow-sm">
               <p className="mb-3 text-[9px] font-semibold uppercase tracking-wide text-zinc-400">Revenue Trend · 6 months</p>
               <div className="flex h-20 items-end gap-1.5">
                 {[55, 68, 60, 75, 84, 100].map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 rounded-t-sm"
-                    style={{
-                      height: `${h}%`,
-                      background: i === 5 ? ACCENT : '#E5E5EA',
-                      opacity: i === 5 ? 1 : 0.6 + i * 0.06,
-                    }}
-                  />
+                  <div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, background: i === 5 ? ACCENT : '#E5E5EA', opacity: i === 5 ? 1 : 0.6 + i * 0.06 }} />
                 ))}
               </div>
               <div className="mt-1.5 flex justify-between">
@@ -138,8 +140,6 @@ function DashboardMockup() {
                 ))}
               </div>
             </div>
-
-            {/* Member attention */}
             <div className="rounded-xl border border-zinc-100 bg-white p-4 shadow-sm">
               <p className="mb-3 text-[9px] font-semibold uppercase tracking-wide text-zinc-400">Members</p>
               {[
@@ -151,10 +151,7 @@ function DashboardMockup() {
               ].map(m => (
                 <div key={m.name} className="flex items-center justify-between border-b border-zinc-50 py-1.5 last:border-0">
                   <span className="text-[10px] font-medium text-zinc-800">{m.name}</span>
-                  <span
-                    className="rounded-full px-1.5 py-0.5 text-[8px] font-bold"
-                    style={{ background: `${m.color}20`, color: m.color }}
-                  >
+                  <span className="rounded-full px-1.5 py-0.5 text-[8px] font-bold" style={{ background: `${m.color}20`, color: m.color }}>
                     {m.status}
                   </span>
                 </div>
@@ -167,40 +164,26 @@ function DashboardMockup() {
   )
 }
 
-function WalkInFlowCard({
-  n,
-  title,
-  desc,
-  details,
-  delay,
-}: {
-  n: number
-  title: string
-  desc: string
-  details: string[]
-  delay: number
+// ── Walk-in flow card ─────────────────────────────────────────────────────────
+
+function WalkInFlowCard({ n, title, desc, details, delay }: {
+  n: number; title: string; desc: string; details: string[]; delay: number
 }) {
   return (
     <FadeIn delay={delay}>
       <div className="flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-7 transition-all duration-300 hover:border-zinc-400 hover:shadow-md">
         <div className="mb-5 flex items-center gap-3">
-          <span
-            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-            style={{ background: ACCENT }}
-          >
+          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: ACCENT }}>
             {n}
           </span>
-          <h3 className="text-[15px] font-semibold text-zinc-900">{title}</h3>
+          <h3 className="text-[19px] font-semibold text-zinc-900">{title}</h3>
         </div>
-        <p className="mb-5 flex-1 text-[14px] leading-relaxed text-zinc-500">{desc}</p>
-        <ul className="space-y-2 border-t border-zinc-100 pt-4">
+        <p className="mb-5 flex-1 text-[18px] leading-relaxed text-zinc-500">{desc}</p>
+        <ul className="space-y-2.5 border-t border-zinc-100 pt-4 list-none p-0">
           {details.map((d, i) => (
-            <li key={i} className="flex items-start gap-2 text-[13px] text-zinc-600">
-              <span
-                className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full"
-                style={{ background: ACCENT }}
-              />
-              {d}
+            <li key={i} className="flex items-start gap-3 text-[17px] text-zinc-600">
+              <span className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: ACCENT }} />
+              <span>{d}</span>
             </li>
           ))}
         </ul>
@@ -209,24 +192,304 @@ function WalkInFlowCard({
   )
 }
 
+// ── MacBook frame ─────────────────────────────────────────────────────────────
+
+function MacbookFrame({ src }: { src: string }) {
+  return (
+    <div className="relative mx-auto w-full select-none" style={{ maxWidth: 640 }}>
+      {/* Lid / screen half */}
+      <div
+        className="relative rounded-t-[14px] px-[14px] pt-[14px] pb-0"
+        style={{
+          background: 'linear-gradient(160deg, #e4e4e4 0%, #d0d0d0 100%)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.85), 0 -1px 0 #b8b8b8',
+        }}
+      >
+        {/* Apple logo silhouette */}
+        <div className="absolute left-1/2 top-2.5 -translate-x-1/2 opacity-30">
+          <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+            <path d="M10.2 7.4c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.2.7-.7 0-1.7-.7-2.8-.7C1.6 2.7 0 3.8 0 6.1c0 1.4.5 2.8 1.2 3.8.6.8 1.3 1.8 2.2 1.7.9 0 1.2-.5 2.3-.5 1.1 0 1.4.5 2.3.5.9 0 1.6-.9 2.2-1.7.4-.6.6-1.1.7-1.1-.1 0-2.7-1-2.7-3.4zm-2.5-6c.5-.6.8-1.4.7-2.2-.7.1-1.6.5-2.1 1-.5.5-.9 1.3-.8 2.1.8.1 1.6-.4 2.2-0.9z" fill="#333"/>
+          </svg>
+        </div>
+
+        {/* Screen bezel */}
+        <div
+          style={{
+            background: '#121212',
+            borderRadius: '8px 8px 0 0',
+            padding: '8px 8px 0',
+          }}
+        >
+          {/* Camera */}
+          <div className="flex justify-center mb-[6px]">
+            <div className="rounded-full" style={{ width: 7, height: 7, background: '#1e1e1e', boxShadow: 'inset 0 0 0 2px #2a2a2a' }}>
+              <div className="rounded-full" style={{ width: 3, height: 3, background: '#0a0a0a', margin: '2px auto' }} />
+            </div>
+          </div>
+
+          {/* Video */}
+          <div style={{ borderRadius: '3px 3px 0 0', overflow: 'hidden', aspectRatio: '16/10', background: '#000' }}>
+            <video
+              src={src}
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Hinge */}
+      <div style={{ height: 5, background: 'linear-gradient(180deg, #aaa 0%, #c4c4c4 100%)', boxShadow: '0 2px 4px rgba(0,0,0,0.2)' }} />
+
+      {/* Base */}
+      <div
+        style={{
+          height: 30,
+          background: 'linear-gradient(180deg, #d6d6d6 0%, #c0c0c0 60%, #b4b4b4 100%)',
+          borderRadius: '0 0 10px 10px',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), 0 8px 24px rgba(0,0,0,0.18)',
+          position: 'relative',
+        }}
+      >
+        {/* Speaker grilles */}
+        <div className="absolute left-[11%] top-1/2 -translate-y-1/2 flex gap-[2.5px]">
+          {[0,1,2,3,4].map(i => <div key={i} style={{ width: 2, height: 9, background: 'rgba(0,0,0,0.13)', borderRadius: 1 }} />)}
+        </div>
+        <div className="absolute right-[11%] top-1/2 -translate-y-1/2 flex gap-[2.5px]">
+          {[0,1,2,3,4].map(i => <div key={i} style={{ width: 2, height: 9, background: 'rgba(0,0,0,0.13)', borderRadius: 1 }} />)}
+        </div>
+      </div>
+
+      {/* Drop shadow */}
+      <div style={{ height: 4, background: 'linear-gradient(90deg, transparent 5%, rgba(0,0,0,0.14) 30%, rgba(0,0,0,0.14) 70%, transparent 95%)', filter: 'blur(3px)' }} />
+    </div>
+  )
+}
+
+// ── Persona carousel ──────────────────────────────────────────────────────────
+
+const personas = [
+  {
+    name: 'Jamie Chen',
+    role: 'Run Club Founder',
+    type: 'Part-Time Host',
+    age: 29,
+    location: 'Austin, TX',
+    initials: 'JC',
+    accent: '#6366F1',
+    quote: '"I love my run club — but I\'m drowning in spreadsheets. I need to see what\'s working without spending my whole Sunday on data."',
+    goals: [
+      'Grow membership from 45 to 100+ runners',
+      'Earn consistent side income from events',
+      'Keep events full without manual outreach',
+    ],
+    painPoints: [
+      'No idea who\'s at churn risk until they ghost',
+      'Can\'t compare which events drive revenue',
+      'Manual RSVP tracking eats into her day-job time',
+    ],
+    context: 'Checks app 3×/week · Hosts 2–3 events/month · Side hustle income',
+  },
+  {
+    name: 'Marcus Williams',
+    role: 'CrossFit & HIIT Coach',
+    type: 'Full-Time Host',
+    age: 36,
+    location: 'Brooklyn, NY',
+    initials: 'MW',
+    accent: '#18181B',
+    quote: '"My members ARE my business. If someone\'s slipping, I need to know before they cancel — not after they\'re already gone."',
+    goals: [
+      'Replace studio salary with platform income',
+      'Scale to 200+ paying members',
+      'Predict monthly revenue 30 days out',
+    ],
+    painPoints: [
+      'Churn catches him completely off guard',
+      'No early warning system for disengaged members',
+      'Can\'t see ROI of premium vs. free events',
+    ],
+    context: 'Daily dashboard user · Hosts 8–10 events/month · Full-time — every dollar counts',
+  },
+  {
+    name: 'Sofia Reyes',
+    role: 'Yoga Studio Owner',
+    type: 'Studio Host',
+    age: 42,
+    location: 'Los Angeles, CA',
+    initials: 'SR',
+    accent: '#9333EA',
+    quote: '"I\'ve built this community for 8 years. I need data that helps me protect it — not more noise to wade through."',
+    goals: [
+      'Reduce monthly churn below 5%',
+      'Identify top members to convert to brand advocates',
+      'Understand Sweatpals marketplace vs. direct revenue',
+    ],
+    painPoints: [
+      'Data lives across 3 different tools today',
+      'No single view of community health',
+      'Admin time crowds out actual teaching',
+    ],
+    context: 'Checks weekly, acts monthly · 12–15 events/month · Has part-time admin',
+  },
+]
+
+const slideVariants = {
+  enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
+  center: { x: 0, opacity: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+  exit: (dir: number) => ({ x: dir < 0 ? '100%' : '-100%', opacity: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }),
+}
+
+function PersonaCarousel() {
+  const [current, setCurrent] = useState(0)
+  const [direction, setDirection] = useState(1)
+
+  function goTo(idx: number) {
+    setDirection(idx > current ? 1 : -1)
+    setCurrent(idx)
+  }
+  function prev() {
+    setDirection(-1)
+    setCurrent(i => (i - 1 + personas.length) % personas.length)
+  }
+  function next() {
+    setDirection(1)
+    setCurrent(i => (i + 1) % personas.length)
+  }
+
+  const p = personas[current]
+
+  return (
+    <FadeIn>
+      <div className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+        {/* Slide */}
+        <AnimatePresence custom={direction} mode="wait">
+          <motion.div
+            key={current}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="grid gap-0 lg:grid-cols-[300px_1fr]"
+          >
+            {/* Left panel — identity */}
+            <div
+              className="flex flex-col items-start justify-between p-8 sm:p-10"
+              style={{ background: p.accent }}
+            >
+              <div>
+                <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/60">
+                  {p.type}
+                </p>
+                <div
+                  className="mb-5 flex h-16 w-16 items-center justify-center rounded-full text-[22px] font-bold text-white"
+                  style={{ background: 'rgba(255,255,255,0.15)' }}
+                >
+                  {p.initials}
+                </div>
+                <h3 className="text-[26px] font-bold leading-tight text-white">{p.name}</h3>
+                <p className="mt-1 text-[18px] text-white/70">{p.role}</p>
+              </div>
+              <div className="mt-8 space-y-1 text-left">
+                <p className="text-[14px] text-white/60">Age {p.age} · {p.location}</p>
+                <p className="text-[13px] italic text-white/50">{p.context}</p>
+              </div>
+            </div>
+
+            {/* Right panel — content */}
+            <div className="p-8 sm:p-10">
+              {/* Quote */}
+              <blockquote
+                className="mb-8 border-l-4 pl-5 text-[20px] italic leading-[1.7] text-zinc-700"
+                style={{ borderLeftColor: p.accent }}
+              >
+                {p.quote}
+              </blockquote>
+
+              <div className="grid gap-8 sm:grid-cols-2">
+                <div>
+                  <p
+                    className="mb-4 text-[11px] font-bold uppercase tracking-[0.22em]"
+                    style={{ color: p.accent }}
+                  >
+                    Goals
+                  </p>
+                  <BulletList items={p.goals} size="sm" />
+                </div>
+                <div>
+                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.22em] text-zinc-400">
+                    Pain Points
+                  </p>
+                  <BulletList items={p.painPoints} size="sm" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Nav bar */}
+        <div className="flex items-center justify-between border-t border-zinc-100 px-8 py-4">
+          {/* Dots */}
+          <div className="flex items-center gap-2">
+            {personas.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className="h-2 rounded-full transition-all duration-300 focus:outline-none"
+                style={{
+                  width: i === current ? 24 : 8,
+                  background: i === current ? p.accent : '#d4d4d8',
+                }}
+                aria-label={`Go to persona ${i + 1}`}
+              />
+            ))}
+          </div>
+          {/* Arrows */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prev}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 text-zinc-500 transition hover:border-zinc-400 hover:text-zinc-900"
+            >
+              ←
+            </button>
+            <button
+              onClick={next}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 text-zinc-500 transition hover:border-zinc-400 hover:text-zinc-900"
+            >
+              →
+            </button>
+          </div>
+          <p className="text-[12px] text-zinc-400">
+            {current + 1} / {personas.length}
+          </p>
+        </div>
+      </div>
+    </FadeIn>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
 export default function SweatpalsCaseStudy() {
   const { scrollYProgress } = useScroll()
 
   return (
     <>
-      {/* Reading progress */}
       <motion.div
         style={{ scaleX: scrollYProgress, background: ACCENT }}
         className="fixed left-0 right-0 top-[52px] z-50 h-[2px] origin-left"
       />
 
-      <article className="text-zinc-900" style={{ background: '#fcfcfc' }}>
+      <article className="text-left text-zinc-900" style={{ background: '#fcfcfc' }}>
+
         {/* ─── HERO ──────────────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-zinc-950 px-5 pb-24 pt-20 sm:px-10 sm:pb-32 sm:pt-28">
           <div className="pointer-events-none absolute inset-0">
-            <div
-              className="absolute right-0 top-0 h-[700px] w-[700px] rounded-full opacity-10 blur-[140px] bg-zinc-600"
-            />
+            <div className="absolute right-0 top-0 h-[700px] w-[700px] rounded-full opacity-10 blur-[140px] bg-zinc-600" />
             <div className="absolute bottom-0 left-1/4 h-[400px] w-[400px] rounded-full bg-orange-600/10 blur-[100px]" />
           </div>
 
@@ -239,25 +502,22 @@ export default function SweatpalsCaseStudy() {
             </Link>
 
             <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
-              <div>
-                <p
-                  className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em]"
-                  style={{ color: ACCENT }}
-                >
+              <div className="text-left">
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em]" style={{ color: ACCENT }}>
                   Design Challenge · Feb 2026
                 </p>
                 <h1
-                  className="mb-6 text-[clamp(48px,8vw,96px)] font-bold leading-[0.95] tracking-tight text-white"
+                  className="mb-6 text-[clamp(48px,8vw,96px)] font-bold leading-[0.95] tracking-tight text-white text-left"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Sweatpals
                 </h1>
-                <p className="max-w-xl text-[18px] leading-[1.65] text-zinc-400">
+                <p className="max-w-xl text-[22px] leading-[1.65] text-zinc-400 text-left">
                   Designing a community dashboard that turns host data into actionable insight — and makes everyday host tasks effortless.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 text-left">
                 {[
                   { label: 'Role', value: 'Product Designer' },
                   { label: 'Type', value: 'Paid Design Challenge' },
@@ -265,10 +525,8 @@ export default function SweatpalsCaseStudy() {
                   { label: 'Year', value: '2026' },
                 ].map(item => (
                   <div key={item.label}>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-600">
-                      {item.label}
-                    </p>
-                    <p className="text-[14px] font-medium text-zinc-200">{item.value}</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-600">{item.label}</p>
+                    <p className="text-[18px] font-medium text-zinc-200">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -276,10 +534,7 @@ export default function SweatpalsCaseStudy() {
 
             <div className="mt-8 flex flex-wrap gap-2">
               {['Consumer SaaS', 'Dashboard Design', 'Data Visualization', 'Action Flows'].map(tag => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-zinc-800 px-4 py-1.5 text-[11px] font-medium tracking-wide text-zinc-400"
-                >
+                <span key={tag} className="rounded-full border border-zinc-800 px-4 py-1.5 text-[11px] font-medium tracking-wide text-zinc-400">
                   {tag}
                 </span>
               ))}
@@ -294,13 +549,13 @@ export default function SweatpalsCaseStudy() {
           <FadeIn>
             <SectionLabel n="1" text="Context" />
             <h2
-              className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+              className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Community-first fitness, backed by the best
             </h2>
             <div className="grid gap-8 lg:grid-cols-2">
-              <div className="space-y-4 text-[16px] leading-[1.75] text-zinc-600">
+              <div className="space-y-5 text-[20px] leading-[1.75] text-zinc-600 text-left">
                 <p>
                   Sweatpals is a fitness platform turning workouts into social experiences — connecting hundreds of thousands of "pals," hosts, and gyms through events, memberships, and social features. Backed by a16z, Kevin Hart, Pear VC, and the founders of Instacart and Dreamworks.
                 </p>
@@ -316,14 +571,14 @@ export default function SweatpalsCaseStudy() {
                   { value: '€50/hr', label: 'Challenge rate' },
                 ].map((stat, i) => (
                   <FadeIn key={i} delay={i * 0.07}>
-                    <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-5">
+                    <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-5 text-left">
                       <p
                         className="mb-1 text-[28px] font-bold tracking-tight"
                         style={{ color: ACCENT, fontFamily: "'Playfair Display', Georgia, serif" }}
                       >
                         {stat.value}
                       </p>
-                      <p className="text-[12px] leading-snug text-zinc-500">{stat.label}</p>
+                      <p className="text-[16px] leading-snug text-zinc-500">{stat.label}</p>
                     </div>
                   </FadeIn>
                 ))}
@@ -335,17 +590,14 @@ export default function SweatpalsCaseStudy() {
           <FadeIn>
             <SectionLabel n="2" text="The Problem" />
             <h2
-              className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+              className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Hosts are flying blind
             </h2>
 
-            <div
-              className="mb-8 rounded-2xl border-l-4 bg-zinc-50 p-8"
-              style={{ borderLeftColor: ACCENT }}
-            >
-              <p className="text-[17px] leading-[1.75] text-zinc-700">
+            <div className="mb-8 rounded-2xl border-l-4 bg-zinc-50 p-8 text-left" style={{ borderLeftColor: ACCENT }}>
+              <p className="text-[21px] leading-[1.75] text-zinc-700">
                 "Community hosts currently lack comprehensive visibility into their community's health, engagement, financial trends and member behavior. Without actionable insights, they cannot optimize event performance, identify their most engaged members, track community growth, or understand what's working."
               </p>
               <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
@@ -373,15 +625,12 @@ export default function SweatpalsCaseStudy() {
                 },
               ].map((p, i) => (
                 <FadeIn key={i} delay={i * 0.08}>
-                  <div className="rounded-xl border border-zinc-200 bg-white p-5">
+                  <div className="rounded-xl border border-zinc-200 bg-white p-5 text-left">
                     <div className="flex items-start gap-3">
-                      <span
-                        className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full"
-                        style={{ background: ACCENT }}
-                      />
+                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: ACCENT }} />
                       <div>
-                        <p className="mb-1 text-[15px] font-semibold text-zinc-900">{p.title}</p>
-                        <p className="text-[13px] leading-relaxed text-zinc-500">{p.desc}</p>
+                        <p className="mb-1 text-[19px] font-semibold text-zinc-900">{p.title}</p>
+                        <p className="text-[17px] leading-relaxed text-zinc-500">{p.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -394,12 +643,12 @@ export default function SweatpalsCaseStudy() {
           <FadeIn>
             <SectionLabel n="3" text="The Brief" />
             <h2
-              className="mb-6 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+              className="mb-6 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Three questions. One dashboard.
             </h2>
-            <p className="mb-10 max-w-2xl text-[16px] leading-[1.75] text-zinc-600">
+            <p className="mb-10 max-w-2xl text-[20px] leading-[1.75] text-zinc-600 text-left">
               Design a "Community Overview" Dashboard — the primary screen hosts see when they log in — that helps them quickly answer three key questions. Then design a short action flow (2–3 screens) for a task taken directly from that data.
             </p>
 
@@ -422,34 +671,78 @@ export default function SweatpalsCaseStudy() {
                 },
               ].map((item, i) => (
                 <FadeIn key={item.n} delay={i * 0.1}>
-                  <div className="h-full rounded-2xl border border-zinc-200 bg-white p-6">
-                    <p
-                      className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em]"
-                      style={{ color: ACCENT }}
-                    >
+                  <div className="h-full rounded-2xl border border-zinc-200 bg-white p-6 text-left">
+                    <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em]" style={{ color: ACCENT }}>
                       Q{item.n}
                     </p>
-                    <h3 className="mb-4 text-[16px] font-semibold text-zinc-900">{item.q}</h3>
-                    <ul className="space-y-2">
-                      {item.items.map(d => (
-                        <li key={d} className="flex items-start gap-2 text-[13px] text-zinc-500">
-                          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-zinc-300" />
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
+                    <h3 className="mb-4 text-[20px] font-semibold text-zinc-900">{item.q}</h3>
+                    <BulletList items={item.items} size="sm" />
                   </div>
                 </FadeIn>
               ))}
             </div>
           </FadeIn>
 
-          {/* 04 / Key Challenges */}
+          {/* 04 / Design Process */}
           <div>
             <FadeIn>
-              <SectionLabel n="4" text="Key Design Challenges" />
+              <SectionLabel n="4" text="Design Process" />
               <h2
-                className="mb-10 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+                className="mb-4 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Discovery before solutions
+              </h2>
+            </FadeIn>
+
+            <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1fr_420px]">
+              {/* MacBook with looping video */}
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <MacbookFrame src="/design-process.mp4" />
+              </motion.div>
+
+              {/* Explanatory copy */}
+              <FadeIn delay={0.2}>
+                <div className="space-y-5 text-[20px] leading-[1.8] text-zinc-600 text-left">
+                  <p>
+                    I kicked off discovery by using data to define the opportunity before moving into solutions. I gathered inputs across user feedback, support signals, workflow gaps, and business goals, then used Google Gemini to quickly synthesize those findings into a structured set of product requirements.
+                  </p>
+                  <p>
+                    That output became the foundation for a focused PRD — aligning the team on the problem, target users, constraints, success metrics, and prioritization criteria. This helped us move from ambiguity into a clear product direction and gave design, product, and engineering a shared framework for evaluating next steps.
+                  </p>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+
+          {/* 05 / The User — animated persona carousel */}
+          <div>
+            <FadeIn>
+              <SectionLabel n="5" text="The User" />
+              <h2
+                className="mb-4 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Who we're designing for
+              </h2>
+              <p className="mb-10 max-w-2xl text-[20px] leading-[1.75] text-zinc-600 text-left">
+                Three distinct host archetypes — each with the same core need for visibility, but different stakes, cadences, and technical comfort levels.
+              </p>
+            </FadeIn>
+            <PersonaCarousel />
+          </div>
+
+          {/* 06 / Key Design Challenges */}
+          <div>
+            <FadeIn>
+              <SectionLabel n="6" text="Key Design Challenges" />
+              <h2
+                className="mb-10 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 The hard problems to solve
@@ -490,28 +783,15 @@ export default function SweatpalsCaseStudy() {
                 },
               ].map((c, i) => (
                 <FadeIn key={c.title} delay={i * 0.1}>
-                  <div className="flex h-full flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-7">
+                  <div className="flex h-full flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-7 text-left">
                     <span className="text-[28px]">{c.icon}</span>
-                    <h3 className="text-[17px] font-semibold text-zinc-900">{c.title}</h3>
-                    <p className="flex-1 text-[14px] leading-relaxed text-zinc-500">{c.desc}</p>
+                    <h3 className="text-[21px] font-semibold text-zinc-900">{c.title}</h3>
+                    <p className="flex-1 text-[18px] leading-relaxed text-zinc-500">{c.desc}</p>
                     <div className="border-t border-zinc-100 pt-4">
-                      <p
-                        className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.2em]"
-                        style={{ color: ACCENT }}
-                      >
+                      <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ACCENT }}>
                         My Decisions
                       </p>
-                      <ul className="space-y-2">
-                        {c.decisions.map(d => (
-                          <li key={d} className="flex items-start gap-2 text-[12px] text-zinc-600">
-                            <span
-                              className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full"
-                              style={{ background: ACCENT }}
-                            />
-                            {d}
-                          </li>
-                        ))}
-                      </ul>
+                      <BulletList items={c.decisions} size="sm" />
                     </div>
                   </div>
                 </FadeIn>
@@ -519,17 +799,17 @@ export default function SweatpalsCaseStudy() {
             </div>
           </div>
 
-          {/* 05 / Dashboard */}
+          {/* 06 / Dashboard */}
           <div>
             <FadeIn>
-              <SectionLabel n="5" text="The Dashboard" />
+              <SectionLabel n="7" text="The Dashboard" />
               <h2
-                className="mb-4 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+                className="mb-4 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 Community Overview
               </h2>
-              <p className="mb-10 max-w-2xl text-[16px] leading-[1.75] text-zinc-600">
+              <p className="mb-10 max-w-2xl text-[20px] leading-[1.75] text-zinc-600 text-left">
                 A desktop-first dashboard organized to deliver immediate signal — financial health, member attention, and today's schedule — with the tools to act, all on one screen.
               </p>
             </FadeIn>
@@ -552,26 +832,29 @@ export default function SweatpalsCaseStudy() {
                 },
               ].map((d, i) => (
                 <FadeIn key={d.title} delay={i * 0.08}>
-                  <div className="rounded-xl border border-zinc-100 bg-zinc-50 p-5">
-                    <h4 className="mb-2 text-[15px] font-semibold text-zinc-900">{d.title}</h4>
-                    <p className="text-[13px] leading-relaxed text-zinc-500">{d.desc}</p>
+                  <div className="rounded-xl border border-zinc-100 bg-zinc-50 p-5 text-left">
+                    <h4 className="mb-2 text-[19px] font-semibold text-zinc-900">{d.title}</h4>
+                    <p className="text-[17px] leading-relaxed text-zinc-500">{d.desc}</p>
                   </div>
                 </FadeIn>
               ))}
             </div>
           </div>
 
-          {/* 06 / Walk-In Flow */}
+          {/* 07 / Walk-In Flow */}
           <div>
             <FadeIn>
-              <SectionLabel n="6" text="Action Flow" />
+              <SectionLabel n="8" text="Action Flow" />
               <h2
-                className="mb-4 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+                className="mb-4 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 Walk-in registration in 3 steps
               </h2>
-              <blockquote className="mb-10 max-w-2xl border-l-2 pl-5 text-[16px] italic leading-[1.75] text-zinc-500" style={{ borderColor: ACCENT }}>
+              <blockquote
+                className="mb-10 max-w-2xl border-l-2 pl-5 text-[20px] italic leading-[1.75] text-zinc-500 text-left"
+                style={{ borderColor: ACCENT }}
+              >
                 "Imagine a customer comes to the front desk and would like to sign up for a class happening today. How does the dashboard provide easy access to this common day-to-day task?"
               </blockquote>
             </FadeIn>
@@ -581,46 +864,34 @@ export default function SweatpalsCaseStudy() {
                 n={1}
                 title="Find Member"
                 desc="Search the member list by name or email. Results show event history and status to give hosts immediate context before registering."
-                details={[
-                  'Real-time name/email search',
-                  'Attendance count and last seen',
-                  'New member creation if not found',
-                ]}
+                details={['Real-time name/email search', 'Attendance count and last seen', 'New member creation if not found']}
                 delay={0}
               />
               <WalkInFlowCard
                 n={2}
                 title="Select Event"
                 desc="Today's events with open spots are surfaced automatically. Hosts see capacity at a glance and pick the right class without navigating away."
-                details={[
-                  'Today-only event filter',
-                  'Spots remaining prominently shown',
-                  'Time and location at a glance',
-                ]}
+                details={["Today-only event filter", 'Spots remaining prominently shown', 'Time and location at a glance']}
                 delay={0.1}
               />
               <WalkInFlowCard
                 n={3}
                 title="Confirm & Register"
                 desc="A clear summary — member, event, price — before committing. One tap completes registration and sends a confirmation to the member."
-                details={[
-                  'Full review before submitting',
-                  'Automatic email confirmation',
-                  'Payment method noted clearly',
-                ]}
+                details={['Full review before submitting', 'Automatic email confirmation', 'Payment method noted clearly']}
                 delay={0.2}
               />
             </div>
 
             <FadeIn delay={0.3}>
               <div
-                className="mt-8 flex items-start gap-4 rounded-2xl p-6"
+                className="mt-8 flex items-start gap-4 rounded-2xl p-6 text-left"
                 style={{ background: 'rgba(24,24,27,0.04)', border: '1px solid rgba(24,24,27,0.12)' }}
               >
                 <span className="text-xl">⚡</span>
                 <div>
-                  <p className="mb-1 font-semibold text-zinc-900">Why this flow matters</p>
-                  <p className="text-[14px] leading-relaxed text-zinc-600">
+                  <p className="mb-2 text-[19px] font-semibold text-zinc-900">Why this flow matters</p>
+                  <p className="text-[18px] leading-relaxed text-zinc-600">
                     The walk-in scenario is a perfect test of the dashboard's actionability. A host shouldn't need to navigate away from their overview to handle a front-desk request. By surfacing "Check In Member" as a primary quick action — and triggering it directly from urgent notifications — the gap between insight and action closes in under 30 seconds.
                   </p>
                 </div>
@@ -628,11 +899,11 @@ export default function SweatpalsCaseStudy() {
             </FadeIn>
           </div>
 
-          {/* 07 / Design Decisions */}
+          {/* 08 / Design Decisions */}
           <FadeIn>
-            <SectionLabel n="7" text="Design Decisions" />
+            <SectionLabel n="9" text="Design Decisions" />
             <h2
-              className="mb-10 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+              className="mb-10 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Why these choices
@@ -660,43 +931,37 @@ export default function SweatpalsCaseStudy() {
                   why: "Sweatpals brings 34% of hosts' customers through its marketplace. That's a powerful retention and value argument — but it lives below the fold. It's contextual evidence, not a primary signal.",
                 },
               ].map((item, i) => (
-                <div key={i} className="grid gap-4 py-7 lg:grid-cols-[220px_1fr]">
+                <div key={i} className="grid gap-4 py-7 text-left lg:grid-cols-[220px_1fr]">
                   <div>
-                    <p
-                      className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em]"
-                      style={{ color: ACCENT }}
-                    >
+                    <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ACCENT }}>
                       Decision
                     </p>
-                    <h4 className="text-[15px] font-semibold leading-snug text-zinc-900">{item.decision}</h4>
+                    <h4 className="text-[19px] font-semibold leading-snug text-zinc-900">{item.decision}</h4>
                   </div>
                   <div>
                     <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Why</p>
-                    <p className="text-[15px] leading-[1.7] text-zinc-600">{item.why}</p>
+                    <p className="text-[19px] leading-[1.7] text-zinc-600">{item.why}</p>
                   </div>
                 </div>
               ))}
             </div>
           </FadeIn>
 
-          {/* 08 / Reflection */}
+          {/* 09 / Reflection */}
           <FadeIn>
-            <SectionLabel n="8" text="Reflection" />
+            <SectionLabel n="10" text="Reflection" />
             <h2
-              className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight"
+              className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               What I'd push further
             </h2>
             <div className="grid gap-6 lg:grid-cols-2">
-              <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-7">
-                <p
-                  className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em]"
-                  style={{ color: ACCENT }}
-                >
+              <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-7 text-left">
+                <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ACCENT }}>
                   Given more time
                 </p>
-                <ul className="space-y-3">
+                <ul className="space-y-3 list-none p-0">
                   {[
                     'Run moderated sessions with actual Sweatpals hosts to validate the information hierarchy',
                     'Design the mobile companion view — hosts run events away from desks',
@@ -704,21 +969,18 @@ export default function SweatpalsCaseStudy() {
                     'Build the "Message At-Risk Members" flow as a second action flow',
                     'Explore a personalized homepage that adapts based on the time of day and upcoming events',
                   ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-[14px] text-zinc-600">
-                      <span
-                        className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full"
-                        style={{ background: ACCENT }}
-                      />
-                      {item}
+                    <li key={i} className="flex items-start gap-3 text-[18px] text-zinc-600">
+                      <span className="mt-[9px] h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: ACCENT }} />
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="rounded-2xl border border-zinc-200 bg-white p-7">
+              <div className="rounded-2xl border border-zinc-200 bg-white p-7 text-left">
                 <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
                   Key Insight
                 </p>
-                <p className="text-[16px] leading-[1.75] text-zinc-700">
+                <p className="text-[20px] leading-[1.75] text-zinc-700">
                   The walk-in flow revealed something bigger than a task:{' '}
                   <strong className="font-semibold text-zinc-900">
                     the best dashboards are launchpads, not reports.
@@ -726,7 +988,7 @@ export default function SweatpalsCaseStudy() {
                   Every data point should have a next action attached. Churn risk → message. Low fill rate → promote. Walk-in request → sign up. The tightest version of this dashboard blurs the line between analytics and operations.
                 </p>
                 <div
-                  className="mt-6 rounded-xl p-4 text-[13px] leading-relaxed"
+                  className="mt-6 rounded-xl p-4 text-[17px] leading-relaxed"
                   style={{ background: 'rgba(24,24,27,0.04)', color: '#3f3f46' }}
                 >
                   This is what Sweatpals' values point toward too — <em>Be a Leader</em> and <em>Roll Up Our Sleeves</em> aren't passive stances. The product should match that energy.
@@ -736,16 +998,16 @@ export default function SweatpalsCaseStudy() {
           </FadeIn>
         </div>
 
-        {/* ─── NEXT CASE STUDY ───────────────────────────────────────────────── */}
+        {/* ─── NEXT ──────────────────────────────────────────────────────────── */}
         <section className="border-t border-zinc-100 px-5 py-16 sm:px-10">
           <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-6">
-            <div>
+            <div className="text-left">
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
                 Next Case Study
               </p>
               <Link
                 to="/experience/atlassian-jira-align"
-                className="text-[22px] font-bold tracking-tight transition-colors hover:text-zinc-500"
+                className="text-[22px] font-bold tracking-tight transition-colors hover:text-zinc-500 text-left"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 Atlassian Jira Align →
