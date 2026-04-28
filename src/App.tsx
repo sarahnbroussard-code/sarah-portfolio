@@ -6,6 +6,7 @@ import Experience from './pages/Experience'
 import Home from './pages/Home'
 import Leadership from './pages/Leadership'
 import NotFound from './pages/NotFound'
+import Services from './pages/Services'
 import Strategy from './pages/Strategy'
 
 export default function App() {
@@ -25,7 +26,7 @@ export default function App() {
         <Route
           path="/experience"
           element={
-            <Layout>
+            <Layout fullWidth>
               <Experience />
             </Layout>
           }
@@ -39,9 +40,17 @@ export default function App() {
           }
         />
         <Route
+          path="/services"
+          element={
+            <Layout fullWidth>
+              <Services />
+            </Layout>
+          }
+        />
+        <Route
           path="/strategy"
           element={
-            <Layout>
+            <Layout fullWidth>
               <Strategy />
             </Layout>
           }
