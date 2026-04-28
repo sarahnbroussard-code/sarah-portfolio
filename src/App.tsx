@@ -8,6 +8,7 @@ import Leadership from './pages/Leadership'
 import NotFound from './pages/NotFound'
 import Services from './pages/Services'
 import Strategy from './pages/Strategy'
+import SweatpalsCaseStudy from './pages/SweatpalsCaseStudy'
 
 export default function App() {
   const location = useLocation()
@@ -28,6 +29,14 @@ export default function App() {
           element={
             <Layout fullWidth>
               <Experience />
+            </Layout>
+          }
+        />
+        <Route
+          path="/experience/sweatpals"
+          element={
+            <Layout fullWidth>
+              <SweatpalsCaseStudy />
             </Layout>
           }
         />

@@ -21,6 +21,17 @@ export type CaseStudy = {
 }
 
 export const caseStudies: CaseStudy[] = [
+  // ─── Sweatpals ───────────────────────────────────────────────────────────────
+  {
+    slug: 'sweatpals',
+    title: 'Sweatpals',
+    subtitle: 'Community dashboard · Design challenge · 2026',
+    tags: ['Consumer', 'SaaS', 'Dashboard'],
+    year: '2026',
+    role: 'Product Designer',
+    sections: [],
+  },
+
   // ─── Atlassian Jira Align ────────────────────────────────────────────────────
   {
     slug: 'atlassian-jira-align',
