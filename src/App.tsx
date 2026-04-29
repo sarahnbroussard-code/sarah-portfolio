@@ -43,7 +43,7 @@ export default function App() {
         <Route
           path="/experience/:slug"
           element={
-            <Layout>
+            <Layout fullWidth>
               <CaseStudy />
             </Layout>
           }

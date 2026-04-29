@@ -1,6 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, AnimatePresence } from 'framer-motion'
+import { DashboardV1 } from '../components/DashboardV1'
+import { DashboardV2 } from '../components/DashboardV2'
+import { DashboardV3 } from '../components/DashboardV3'
 
 const ACCENT = '#18181B'
 
@@ -472,6 +475,265 @@ function PersonaCarousel() {
   )
 }
 
+// ── Final design section ──────────────────────────────────────────────────────
+
+const FINAL_W = 1400  // dashboard's natural render width
+const FINAL_H = 900   // dashboard's natural render height
+
+function FinalDesignSection() {
+  const frameRef          = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(0.7)
+
+  useEffect(() => {
+    if (!frameRef.current) return
+    const measure = () => {
+      const w = frameRef.current!.getBoundingClientRect().width
+      if (w > 0) setScale(w / FINAL_W)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(frameRef.current)
+    return () => ro.disconnect()
+  }, [])
+
+  return (
+    <FadeIn>
+      {/* Scoped — only targets dashboard-v3 inside this section */}
+      <style>{`.final-design-wrap .dashboard-v3 { height: ${FINAL_H}px !important; }`}</style>
+
+      <SectionLabel n="10" text="Final Design" />
+      <div className="mb-8 grid gap-6 lg:grid-cols-[1fr_auto]">
+        <div>
+          <h2
+            className="text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left text-zinc-900"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Community Overview Dashboard
+          </h2>
+          <p className="mt-3 max-w-xl text-[20px] leading-[1.75] text-zinc-500 text-left">
+            The submitted design — a desktop-first dashboard that balances financial health,
+            member attention, and quick actions in a single view.
+          </p>
+        </div>
+        <div className="flex items-end gap-3 pb-1">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#8A3FFC]/40 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8A3FFC]">
+            ● Final submission
+          </span>
+        </div>
+      </div>
+
+      {/* Dark browser frame */}
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        className="final-design-wrap overflow-hidden rounded-2xl border border-white/10 shadow-[0_32px_80px_-12px_rgba(0,0,0,0.35)]"
+        style={{ background: '#12121A' }}
+      >
+        {/* macOS dark chrome */}
+        <div
+          className="flex items-center gap-3 border-b px-4 py-2.5"
+          style={{ background: '#0E0E1A', borderColor: 'rgba(255,255,255,0.08)' }}
+        >
+          <div className="flex shrink-0 gap-1.5">
+            <div className="h-3 w-3 rounded-full bg-[#ff5f57] ring-1 ring-black/20" />
+            <div className="h-3 w-3 rounded-full bg-[#febc2e] ring-1 ring-black/20" />
+            <div className="h-3 w-3 rounded-full bg-[#28c840] ring-1 ring-black/20" />
+          </div>
+          <div className="flex gap-1 text-[12px]" style={{ color: 'rgba(255,255,255,0.25)' }}>‹ ›</div>
+          <div className="flex flex-1 items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-mono text-white/35">
+            🔒 sweatpals.app / dashboard
+          </div>
+          <div className="flex gap-2.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.2)' }}>⊕ ≡</div>
+        </div>
+
+        {/* Content area — percentage sizing avoids fixed-pixel layout overflow */}
+        <div
+          ref={frameRef}
+          style={{ height: scale > 0 ? Math.round(FINAL_H * scale) : 0, position: 'relative', overflow: 'hidden' }}
+        >
+          {scale > 0 && (
+            <div
+              style={{
+                transform: `scale(${scale})`,
+                transformOrigin: 'top left',
+                width:  `${100 / scale}%`,
+                height: `${100 / scale}%`,
+              }}
+            >
+              <DashboardV3 />
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </FadeIn>
+  )
+}
+
+// ── Dashboard iteration showcase ─────────────────────────────────────────────
+
+const DASH_VERSIONS = [
+  {
+    id: 'v1',
+    label: 'V1',
+    title: 'Gamified · High-energy',
+    caption: 'Strava-inspired: live ticker, streaks, leaderboard. Energetic but too dense — the data hierarchy was unclear.',
+    url: 'sweatpals.app/dashboard — iteration 1',
+    Component: DashboardV1,
+  },
+  {
+    id: 'v2',
+    label: 'V2',
+    title: 'Refined · Tab nav',
+    caption: 'Cleaner layout with tab navigation. Reduced visual noise while preserving data density. Better scannability.',
+    url: 'sweatpals.app/dashboard — iteration 2',
+    Component: DashboardV2,
+  },
+  {
+    id: 'v3',
+    label: 'V3',
+    title: 'Final · Sidebar architecture',
+    caption: 'Persistent sidebar, clear content hierarchy, alert-first layout. This became the submitted design.',
+    url: 'sweatpals.app/dashboard — final',
+    Component: DashboardV3,
+  },
+]
+
+// Dashboards are designed at this viewport size
+const DASH_W = 1400
+const DASH_H = 700
+
+function DashboardIterations() {
+  const [active, setActive] = useState(0)
+  const [dir, setDir]       = useState(1)
+  const frameRef            = useRef<HTMLDivElement>(null)
+  const [scale, setScale]   = useState(1)
+
+  // Dynamically compute scale so the dashboard fills the frame edge-to-edge
+  useEffect(() => {
+    if (!frameRef.current) return
+    const measure = () => {
+      const w = frameRef.current!.getBoundingClientRect().width
+      if (w > 0) setScale(w / DASH_W)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(frameRef.current)
+    return () => ro.disconnect()
+  }, [])
+
+  function goTo(idx: number) {
+    setDir(idx > active ? 1 : -1)
+    setActive(idx)
+  }
+
+  const v = DASH_VERSIONS[active]
+  const displayH = Math.round(DASH_H * scale)
+
+  return (
+    <FadeIn>
+      {/* Scoped — only targets dashboards inside this iterations section */}
+      <style>{`
+        .iterations-wrap .dashboard-v1,
+        .iterations-wrap .dashboard-v2,
+        .iterations-wrap .dashboard-v3 { height: ${DASH_H}px !important; }
+        @keyframes ticker-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        @keyframes scroll-x     { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+      `}</style>
+
+      {/* Version tabs */}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {DASH_VERSIONS.map((dv, i) => (
+          <button
+            key={dv.id}
+            onClick={() => goTo(i)}
+            className={`rounded-lg px-4 py-2 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-200 ${
+              i === active
+                ? 'bg-zinc-900 text-white shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-700'
+            }`}
+          >
+            {dv.label} <span className="font-normal normal-case tracking-normal opacity-60">— {dv.title}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Browser frame */}
+      <div className="iterations-wrap overflow-hidden rounded-xl border border-zinc-200 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.18)]">
+        {/* macOS-style chrome bar */}
+        <div className="flex items-center gap-3 border-b border-zinc-300 bg-[#e8e8e8] px-4 py-2.5">
+          <div className="flex shrink-0 gap-1.5">
+            <div className="h-3 w-3 rounded-full bg-[#ff5f57] ring-1 ring-black/10" />
+            <div className="h-3 w-3 rounded-full bg-[#febc2e] ring-1 ring-black/10" />
+            <div className="h-3 w-3 rounded-full bg-[#28c840] ring-1 ring-black/10" />
+          </div>
+          {/* Chevrons */}
+          <div className="flex gap-1 text-zinc-400">
+            <span className="text-[11px]">‹</span>
+            <span className="text-[11px]">›</span>
+          </div>
+          {/* Address bar */}
+          <div className="flex flex-1 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 py-1 text-[11px] text-zinc-400 shadow-inner">
+            <span className="text-zinc-300">🔒</span>
+            <span className="truncate">{v.url}</span>
+          </div>
+          {/* Right icons */}
+          <div className="flex gap-2 text-zinc-400 text-[13px]">⊕ ≡</div>
+        </div>
+
+        {/* Dashboard — percentage sizing avoids fixed-pixel layout overflow */}
+        <div ref={frameRef} style={{ height: displayH, overflow: 'hidden', position: 'relative' }}>
+          <AnimatePresence custom={dir} mode="wait">
+            <motion.div
+              key={active}
+              custom={dir}
+              initial={{ opacity: 0, x: dir > 0 ? 40 : -40 }}
+              animate={{ opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }}
+              exit={{ opacity: 0, x: dir < 0 ? 40 : -40, transition: { duration: 0.25 } }}
+              style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}
+            >
+              {/* transform creates stacking context → contains position:fixed glow elements */}
+              {scale > 0 && (
+                <div
+                  style={{
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top left',
+                    width:  `${100 / scale}%`,
+                    height: `${100 / scale}%`,
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <v.Component />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Caption + nav */}
+      <div className="mt-4 flex items-start justify-between gap-6">
+        <p className="text-[17px] leading-relaxed text-zinc-500">{v.caption}</p>
+        <div className="flex shrink-0 items-center gap-2">
+          {DASH_VERSIONS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              className="rounded-full transition-all duration-200 focus:outline-none"
+              style={{
+                width: i === active ? 20 : 8,
+                height: 8,
+                background: i === active ? ACCENT : '#d4d4d8',
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </FadeIn>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function SweatpalsCaseStudy() {
@@ -484,7 +746,7 @@ export default function SweatpalsCaseStudy() {
         className="fixed left-0 right-0 top-[52px] z-50 h-[2px] origin-left"
       />
 
-      <article className="text-left text-zinc-900" style={{ background: '#fcfcfc' }}>
+      <article className="text-left text-zinc-900" style={{ background: '#fcfcfc', overflowX: 'hidden' }}>
 
         {/* ─── HERO ──────────────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-zinc-950 px-5 pb-24 pt-20 sm:px-10 sm:pb-32 sm:pt-28">
@@ -897,6 +1159,16 @@ export default function SweatpalsCaseStudy() {
                 </div>
               </div>
             </FadeIn>
+
+            {/* Dashboard design iterations */}
+            <div className="mt-12">
+              <FadeIn delay={0.1}>
+                <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.22em] text-zinc-400">
+                  Design Iterations
+                </p>
+              </FadeIn>
+              <DashboardIterations />
+            </div>
           </div>
 
           {/* 08 / Design Decisions */}
@@ -947,9 +1219,86 @@ export default function SweatpalsCaseStudy() {
             </div>
           </FadeIn>
 
-          {/* 09 / Reflection */}
+          {/* 10 / Final Design */}
+          <FinalDesignSection />
+
+          {/* 11 / Success Criteria */}
           <FadeIn>
-            <SectionLabel n="10" text="Reflection" />
+            <SectionLabel n="11" text="Success Criteria" />
+
+            <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+              {/* Left — framing question */}
+              <div className="flex flex-col justify-start pt-1">
+                <h2
+                  className="text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-zinc-900 text-left"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  How do we know if we were successful?
+                </h2>
+                <p
+                  className="mt-4 text-[20px] font-semibold leading-snug text-zinc-400 text-left"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  How do we know if the dashboard is performing effectively for the business and the host?
+                </p>
+              </div>
+
+              {/* Right — numbered metrics */}
+              <div className="space-y-0 divide-y divide-zinc-100">
+                {[
+                  {
+                    n: 1,
+                    title: 'Huddle Velocity',
+                    body: 'The host spends less time looking at a screen and more time greeting their community. Measured by reduction in average time-to-check-in.',
+                  },
+                  {
+                    n: 2,
+                    title: 'Onboarding Speed',
+                    body: 'Time elapsed from account creation to first ticket sold. Success = meaningfully reduced gap between "Account Created" and "First Ticket Sold."',
+                  },
+                  {
+                    n: 3,
+                    title: 'Interaction Rate',
+                    body: '"High-Fives" (social kudos) sent per event. High interaction signals the dashboard is working as a social engagement surface, not just a report.',
+                  },
+                  {
+                    n: 4,
+                    title: 'Mitigate Churn',
+                    body: 'Measurable increase in retention for at-risk members after hosts receive automated alerts from the "No Pal Left Behind" module.',
+                  },
+                  {
+                    n: 5,
+                    title: 'Marketplace Attribution Clarity',
+                    body: 'Reduction in support tickets related to fees and revenue. Hosts can clearly see what percentage of new members came through Sweatpals discovery versus their own marketing.',
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.n}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex items-start gap-6 py-6 text-left"
+                  >
+                    <span
+                      className="shrink-0 text-[clamp(32px,3.5vw,48px)] font-bold leading-none tabular-nums text-zinc-200"
+                      style={{ fontFamily: "'Playfair Display', Georgia, serif", minWidth: 36 }}
+                    >
+                      {item.n}
+                    </span>
+                    <div>
+                      <p className="mb-1.5 text-[19px] font-bold text-zinc-900">{item.title}</p>
+                      <p className="text-[18px] leading-[1.75] text-zinc-500">{item.body}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+
+          {/* 12 / Reflection */}
+          <FadeIn>
+            <SectionLabel n="12" text="Reflection" />
             <h2
               className="mb-8 text-[clamp(26px,3vw,40px)] font-bold tracking-tight text-left"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}

@@ -57,6 +57,7 @@
 #root {
   width: 1126px;
   max-width: 100%;
+  overflow-x: hidden; /* clamp any child overflow within the root width */
   margin: 0 auto;
   text-align: center;
   min-height: 100svh;
@@ -67,6 +68,7 @@
 
 body {
   margin: 0;
+  overflow-x: hidden; /* prevent horizontal bleed from scaled dashboard frames */
 }
 
 h1,

@@ -42,7 +42,7 @@ function StatCounter({ value, label, index }: { value: string; label: string; in
 
   useEffect(() => {
     if (!isInView || isNaN(numeric)) return
-    const duration = 1300
+    const duration = 1500
     const start = performance.now()
     const tick = (now: number) => {
       const elapsed = now - start
@@ -60,16 +60,16 @@ function StatCounter({ value, label, index }: { value: string; label: string; in
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: index * 0.07 }}
-      className="grid gap-2 rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50 to-purple-50/50 p-7 dark:border-violet-900/30 dark:from-violet-950/20 dark:to-purple-950/15"
+      transition={{ duration: 0.6, delay: index * 0.08 }}
+      className="grid gap-3 text-center"
     >
-      <p className="bg-gradient-to-br from-violet-600 to-purple-500 bg-clip-text text-6xl font-bold tracking-tight text-transparent">
+      <p className="text-5xl font-light tracking-tight text-zinc-900 sm:text-6xl" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
         {display}
       </p>
-      <p className="text-sm leading-snug text-zinc-600 dark:text-zinc-400">{label}</p>
+      <p className="mx-auto max-w-xs text-sm leading-relaxed text-zinc-600" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>{label}</p>
     </motion.div>
   )
 }
@@ -80,24 +80,23 @@ function FeatureAccordion({ features }: { features: { title: string; body?: stri
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <div className="mt-1">
+    <div className="mt-2">
       {features.map((f, i) => (
-        <div key={i} className="border-t border-zinc-200 dark:border-zinc-800">
+        <div key={i} className="border-t border-zinc-200">
           <button
             onClick={() => setOpen(open === i ? null : i)}
-            className="flex w-full items-center gap-5 py-5 text-left"
+            className="flex w-full items-center gap-5 py-6 text-left"
           >
             <motion.span
               animate={{ rotate: open === i ? 45 : 0 }}
               transition={{ duration: 0.2 }}
-              className="text-xl font-light leading-none text-zinc-400 dark:text-zinc-600"
+              className="text-2xl font-light leading-none text-zinc-400"
             >
               +
             </motion.span>
-            <span className="flex-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-700 dark:text-zinc-300">
+            <span className="flex-1 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-700" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
               {f.title}
             </span>
-            {open === i && <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />}
           </button>
           <AnimatePresence>
             {open === i && f.body && (
@@ -106,10 +105,10 @@ function FeatureAccordion({ features }: { features: { title: string; body?: stri
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.22, ease: 'easeOut' }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
                 className="overflow-hidden"
               >
-                <p className="pb-6 pl-10 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <p className="pb-7 pl-11 text-[17px] leading-[1.7] text-zinc-600">
                   {f.body}
                 </p>
               </motion.div>
@@ -117,7 +116,7 @@ function FeatureAccordion({ features }: { features: { title: string; body?: stri
           </AnimatePresence>
         </div>
       ))}
-      <div className="border-t border-zinc-200 dark:border-zinc-800" />
+      <div className="border-t border-zinc-200" />
     </div>
   )
 }
@@ -139,31 +138,23 @@ function StepsSection({
   const [visible, setVisible] = useState(true)
 
   return (
-    <div className="grid gap-6">
-      <div className="flex items-start justify-between gap-4">
-        <div className="grid gap-3">
-          {label && (
-            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-violet-600 dark:text-violet-400">
-              {label}
-            </p>
-          )}
-          <h2 className="text-2xl font-semibold leading-tight tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
-            {title}
-          </h2>
-          <p className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{body}</p>
-        </div>
+    <div className="grid gap-8">
+      <div className="grid gap-5">
+        {label && (
+          <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+            {label}
+          </p>
+        )}
+        <h2 className="text-balance text-2xl font-light uppercase leading-[1.2] tracking-[0.04em] text-zinc-900 sm:text-3xl" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+          {title}
+        </h2>
+        <p className="max-w-3xl text-[15px] leading-[1.7] text-zinc-700" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>{body}</p>
         <button
           onClick={() => setVisible(v => !v)}
           aria-label={visible ? 'Hide section' : 'Show section'}
-          className={`relative mt-1 h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-            visible ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-700'
-          }`}
+          className="mx-auto mt-2 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500 transition hover:text-zinc-900"
         >
-          <span
-            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-              visible ? 'translate-x-5' : 'translate-x-0.5'
-            }`}
-          />
+          {visible ? '\u2212 Hide' : '+ Show'}
         </button>
       </div>
 
@@ -177,30 +168,32 @@ function StepsSection({
             transition={{ duration: 0.28, ease: 'easeOut' }}
             className="overflow-hidden"
           >
-            <div className="grid gap-4 lg:grid-cols-[5fr_8fr] lg:gap-8">
+            <div className="grid gap-6 lg:grid-cols-[5fr_8fr] lg:gap-10">
               <div className="grid content-start gap-3">
                 {steps.map((step, i) => (
                   <button
                     key={i}
                     onClick={() => setActive(i)}
-                    className={`rounded-xl border p-5 text-left transition-all duration-200 ${
+                    className={`rounded-2xl border p-6 text-left transition-all duration-200 ${
                       active === i
-                        ? 'border-violet-400/50 bg-violet-50/60 shadow-sm dark:border-violet-500/30 dark:bg-violet-950/30'
-                        : 'border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700'
+                        ? 'border-zinc-900 bg-white shadow-[0_8px_24px_-12px_rgba(0,0,0,0.12)]'
+                        : 'border-zinc-200 bg-white/60 hover:border-zinc-300'
                     }`}
                   >
                     <div className="flex gap-4">
                       <span
-                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors ${
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors ${
                           active === i
-                            ? 'bg-violet-600 text-white'
-                            : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'
+                            ? 'bg-zinc-900 text-white'
+                            : 'bg-zinc-100 text-zinc-500'
                         }`}
                       >
                         {i + 1}
                       </span>
                       <div className="grid gap-2">
-                        <p className="font-semibold text-zinc-900 dark:text-white">{step.title}</p>
+                        <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-zinc-900" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+                          {step.title}
+                        </p>
                         <AnimatePresence>
                           {active === i && (
                             <motion.p
@@ -208,8 +201,8 @@ function StepsSection({
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
                               exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.2, ease: 'easeOut' }}
-                              className="overflow-hidden text-sm leading-relaxed text-zinc-600 dark:text-zinc-400"
+                              transition={{ duration: 0.25, ease: 'easeOut' }}
+                              className="overflow-hidden text-[15px] leading-[1.65] text-zinc-600"
                             >
                               {step.body}
                             </motion.p>
@@ -221,7 +214,7 @@ function StepsSection({
                 ))}
               </div>
 
-              <div className="overflow-hidden rounded-2xl">
+              <div className="overflow-hidden rounded-2xl bg-zinc-100 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.12)]">
                 {steps[active].image ? (
                   <img
                     src={steps[active].image}
@@ -397,7 +390,8 @@ function CanvasPreview({ url }: { url: string }) {
 function BodyText({ text }: { text: string }) {
   return (
     <div
-      className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-zinc-900 dark:[&_strong]:text-zinc-100"
+      className="text-[15px] leading-[1.75] text-zinc-700 whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-zinc-900"
+      style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}
       dangerouslySetInnerHTML={{
         __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'),
       }}
@@ -429,131 +423,164 @@ export default function CaseStudy() {
   }
 
   return (
-    <>
+    <div className="min-h-screen w-full bg-[#fcfcfc] text-left">
       {/* Reading progress bar */}
       <motion.div
         style={{ scaleX: scrollYProgress }}
-        className="fixed left-0 right-0 top-[52px] z-50 h-[2px] origin-left bg-gradient-to-r from-violet-500 via-purple-400 to-fuchsia-500"
+        className="fixed left-0 right-0 top-[52px] z-50 h-[2px] origin-left bg-zinc-900"
       />
 
-      <article className="mx-auto max-w-3xl grid gap-16 px-1 py-10">
-        {/* Header */}
-        <motion.header
-          initial={{ opacity: 0, y: 16 }}
+      <article className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-20">
+        {/* Back link */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="grid gap-6"
+          transition={{ duration: 0.4 }}
+          className="mb-12"
         >
           <Link
             to="/experience"
-            className="inline-flex w-fit items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-500 transition hover:text-zinc-900 dark:hover:text-zinc-200"
+            className="inline-flex w-fit items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-500 transition hover:text-zinc-900"
           >
             ← Experience
           </Link>
+        </motion.div>
 
-          <div className="grid gap-5">
-            {caseStudy.heroImage && (
-              <div className="overflow-hidden rounded-2xl border border-zinc-200/80 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.12)] dark:border-zinc-800">
-                <img
-                  src={caseStudy.heroImage}
-                  alt={caseStudy.title}
-                  className="w-full object-cover"
-                />
-              </div>
-            )}
+        {/* Header — left-aligned editorial */}
+        <motion.header
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
+        >
+          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.24em] text-zinc-500" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+            Atlassian
+          </p>
+          <h1 className="mb-6 text-balance text-4xl font-light uppercase tracking-[0.02em] text-zinc-900 sm:text-6xl" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+            {caseStudy.title}
+          </h1>
+          <p className="max-w-2xl text-pretty text-base leading-[1.7] text-zinc-600" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>
+            {caseStudy.subtitle}
+          </p>
 
-            <div className="grid gap-3">
-              <h1 className="text-balance text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl">
-                {caseStudy.title}
-              </h1>
-              <p className="max-w-2xl text-pretty text-xl text-zinc-500 dark:text-zinc-400">
-                {caseStudy.subtitle}
-              </p>
-            </div>
-
-            {/* Meta chips */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
-                {caseStudy.year}
-              </span>
-              <span className="rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
-                {caseStudy.role}
-              </span>
-              {caseStudy.tags.map(tag => (
-                <span key={tag} className="rounded-full border border-violet-100 bg-violet-50 px-3 py-1.5 text-xs font-medium text-violet-600 dark:border-violet-900/40 dark:bg-violet-950/30 dark:text-violet-400">
-                  {tag}
-                </span>
-              ))}
-            </div>
+          {/* Meta */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-medium uppercase tracking-[0.22em] text-zinc-500" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+            <span>{caseStudy.role}</span>
+            <span className="hidden h-1 w-1 rounded-full bg-zinc-400 sm:inline-block" />
+            <span>{caseStudy.year}</span>
           </div>
         </motion.header>
 
-        {/* Sections */}
-        <section className="grid gap-16">
-          {caseStudy.sections.map((s, i) => (
-            <motion.section
-              key={`${s.title}-${i}`}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-8% 0px' }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {s.steps ? (
-                <StepsSection
-                  label={s.label}
-                  title={s.title}
-                  body={s.body}
-                  steps={s.steps}
-                />
-              ) : (
-                <div className="grid gap-5">
-                  {s.label && (
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-violet-600 dark:text-violet-400">
-                      {s.label}
-                    </p>
-                  )}
-                  <h2 className="text-2xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
-                    {s.title}
-                  </h2>
+        {/* Hero image */}
+        {caseStudy.heroImage && (
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-24 overflow-hidden rounded-3xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18)]"
+          >
+            <img
+              src={caseStudy.heroImage}
+              alt={caseStudy.title}
+              className="w-full object-cover"
+            />
+          </motion.div>
+        )}
 
-                  {s.features ? (
-                    <>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
-                        {s.body}
+        {/* Sections — divider-separated, left-aligned editorial */}
+        <div>
+          {caseStudy.sections.map((s, i) => {
+            const isImpactSection = s.stats && s.stats.length > 0 && !s.features
+            return (
+              <motion.section
+                key={`${s.title}-${i}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-8% 0px' }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="border-t border-zinc-200 py-14 first:border-t-0 first:pt-0"
+              >
+                {s.steps ? (
+                  <StepsSection
+                    label={s.label}
+                    title={s.title}
+                    body={s.body}
+                    steps={s.steps}
+                  />
+                ) : (
+                  <div className="grid gap-6">
+                    {s.label && (
+                      <p className={`text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500 ${isImpactSection ? 'text-center' : ''}`} style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
+                        {s.label}
                       </p>
-                      <FeatureAccordion features={s.features} />
-                    </>
-                  ) : (
-                    <BodyText text={s.body} />
-                  )}
-
-                  {s.image && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: '-8% 0px' }}
-                      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden rounded-2xl border border-zinc-200/80 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.1)] dark:border-zinc-800"
+                    )}
+                    <h2
+                      className={`text-balance text-2xl font-light uppercase leading-[1.2] tracking-[0.04em] text-zinc-900 sm:text-3xl ${isImpactSection ? 'text-center' : ''}`}
+                      style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}
                     >
-                      <img src={s.image} alt={s.title} className="w-full object-cover" />
-                    </motion.div>
-                  )}
+                      {s.title}
+                    </h2>
 
-                  {s.embedUrl && <CanvasPreview url={s.embedUrl} />}
+                    {/* Stats prominently displayed (editorial style) */}
+                    {isImpactSection && s.stats && (
+                      <div className="mx-auto mt-4 grid w-full max-w-3xl gap-12 sm:grid-cols-2">
+                        {s.stats.map((stat, j) => (
+                          <StatCounter key={j} value={stat.value} label={stat.label} index={j} />
+                        ))}
+                      </div>
+                    )}
 
-                  {s.stats && s.stats.length > 0 && (
-                    <div className="mt-2 grid gap-4 sm:grid-cols-2">
-                      {s.stats.map((stat, j) => (
-                        <StatCounter key={j} value={stat.value} label={stat.label} index={j} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-            </motion.section>
-          ))}
-        </section>
+                    {s.features ? (
+                      <div className="w-full">
+                        {s.body && !s.body.startsWith('🔑') && (
+                          <div className="mb-2">
+                            <BodyText text={s.body} />
+                          </div>
+                        )}
+                        <FeatureAccordion features={s.features} />
+                      </div>
+                    ) : !isImpactSection ? (
+                      <BodyText text={s.body} />
+                    ) : null}
+
+                    {s.image && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-8% 0px' }}
+                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                        className="mt-4 overflow-hidden"
+                      >
+                        <img src={s.image} alt={s.title} className="w-full object-cover" />
+                      </motion.div>
+                    )}
+
+                    {s.embedUrl && <CanvasPreview url={s.embedUrl} />}
+
+                    {s.stats && s.stats.length > 0 && s.features && (
+                      <div className="mt-2 grid w-full gap-10 sm:grid-cols-2">
+                        {s.stats.map((stat, j) => (
+                          <StatCounter key={j} value={stat.value} label={stat.label} index={j} />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </motion.section>
+            )
+          })}
+        </div>
+
+        {/* Footer divider */}
+        <div className="mt-32 border-t border-zinc-200 pt-12 text-center">
+          <Link
+            to="/experience"
+            className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.22em] text-zinc-500 transition hover:text-zinc-900"
+          >
+            ← Back to all work
+          </Link>
+        </div>
       </article>
-    </>
+    </div>
   )
 }
