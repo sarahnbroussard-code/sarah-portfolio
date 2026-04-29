@@ -30,6 +30,19 @@ export default function NavBar() {
             Experience
           </NavLink>
           <NavLink
+            to="/services"
+            className={({ isActive }) =>
+              `${navLinkBase} ${
+                isActive
+                  ? 'text-zinc-950 dark:text-zinc-50'
+                  : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
+              }`
+            }
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Services
+          </NavLink>
+          <NavLink
             to="/strategy"
             className={({ isActive }) =>
               `${navLinkBase} ${

@@ -5,7 +5,12 @@
       "WebFetch(domain:www.nicolearoberts.com)",
       "Bash(npx tsc *)",
       "Bash(npm run *)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5177/)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5177/)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "WebFetch(domain:mercedesmacias.framer.website)",
+      "mcp__claude_ai_Figma__get_metadata"
     ]
   }
 }
