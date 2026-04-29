@@ -25,3 +25,6 @@ dist-ssr
 
 # Large source video files
 public/*.mov
+
+# Auto-push logs
+.auto-push-logs/
