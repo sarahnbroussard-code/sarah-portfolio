@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// GitHub Pages: https://sarahnbroussard-code.github.io/sarah-portfolio/
+// Netlify hosts at root (and dev runs at root)
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/sarah-portfolio/',
+  base: '/',
   server: {
     port: 5174,
   },

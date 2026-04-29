@@ -340,10 +340,11 @@ const personas = [
   },
 ]
 
+const EASE = [0.22, 1, 0.36, 1] as const
 const slideVariants = {
   enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
-  center: { x: 0, opacity: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
-  exit: (dir: number) => ({ x: dir < 0 ? '100%' : '-100%', opacity: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }),
+  center: { x: 0, opacity: 1, transition: { duration: 0.45, ease: EASE } },
+  exit: (dir: number) => ({ x: dir < 0 ? '100%' : '-100%', opacity: 0, transition: { duration: 0.35, ease: EASE } }),
 }
 
 function PersonaCarousel() {

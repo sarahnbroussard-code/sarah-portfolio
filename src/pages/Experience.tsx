@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { caseStudies } from '../data/caseStudies'
 import { TextCascade } from '../components/KineticText'
 
-function Card({ cs, index }) {
+function Card({ cs, index }: { cs: (typeof import('../data/caseStudies').caseStudies)[number]; index: number }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLAnchorElement>(null)
