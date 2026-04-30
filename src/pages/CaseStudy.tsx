@@ -148,7 +148,7 @@ function StepsSection({
         <h2 className="text-balance text-2xl font-light uppercase leading-[1.2] tracking-[0.04em] text-zinc-900 sm:text-3xl" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
           {title}
         </h2>
-        <p className="max-w-3xl text-[15px] leading-[1.7] text-zinc-700" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>{body}</p>
+        <p className="max-w-5xl text-[15px] leading-[1.7] text-zinc-700" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>{body}</p>
         <button
           onClick={() => setVisible(v => !v)}
           aria-label={visible ? 'Hide section' : 'Show section'}
@@ -390,7 +390,7 @@ function CanvasPreview({ url }: { url: string }) {
 function BodyText({ text }: { text: string }) {
   return (
     <div
-      className="text-[15px] leading-[1.75] text-zinc-700 whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-zinc-900"
+      className="max-w-5xl text-[15px] leading-[1.75] text-zinc-700 whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-zinc-900"
       style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}
       dangerouslySetInnerHTML={{
         __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'),
@@ -430,7 +430,7 @@ export default function CaseStudy() {
         className="fixed left-0 right-0 top-[52px] z-50 h-[2px] origin-left bg-zinc-900"
       />
 
-      <article className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-20">
+      <article className="w-full px-5 py-20 sm:px-10 sm:py-28">
         {/* Back link */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -448,7 +448,7 @@ export default function CaseStudy() {
 
         {/* Header — left-aligned editorial */}
         <motion.header
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12"
@@ -459,7 +459,7 @@ export default function CaseStudy() {
           <h1 className="mb-6 text-balance text-4xl font-light uppercase tracking-[0.02em] text-zinc-900 sm:text-6xl" style={{ fontFamily: "'Jost', 'Inter', sans-serif" }}>
             {caseStudy.title}
           </h1>
-          <p className="max-w-2xl text-pretty text-base leading-[1.7] text-zinc-600" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>
+          <p className="max-w-5xl text-pretty text-base leading-[1.7] text-zinc-600" style={{ fontFamily: "'Manrope', 'Inter', sans-serif" }}>
             {caseStudy.subtitle}
           </p>
 
@@ -494,10 +494,10 @@ export default function CaseStudy() {
             return (
               <motion.section
                 key={`${s.title}-${i}`}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-8% 0px' }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="border-t border-zinc-200 py-14 first:border-t-0 first:pt-0"
               >
                 {s.steps ? (
@@ -545,7 +545,7 @@ export default function CaseStudy() {
 
                     {s.image && (
                       <motion.div
-                        initial={{ opacity: 0, y: 16 }}
+                        initial={{ opacity: 0, y: 28 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-8% 0px' }}
                         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
