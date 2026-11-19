@@ -28,3 +28,10 @@ public/*.mov
 
 # Auto-push logs
 .auto-push-logs/
+
+# Local Netlify folder
+.netlify
+
+# Environment files
+.env
+.env.*

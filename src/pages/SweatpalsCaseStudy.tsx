@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+
 import { motion, useScroll, AnimatePresence } from 'framer-motion'
 import { DashboardV1 } from '../components/DashboardV1'
 import { DashboardV2 } from '../components/DashboardV2'
@@ -37,7 +37,7 @@ function SectionLabel({ n, text }: { n: string; text: string }) {
       <span className="text-[11px] font-bold tracking-[0.22em] uppercase" style={{ color: ACCENT }}>
         {n.padStart(2, '0')} /
       </span>
-      <span className="text-[11px] font-semibold tracking-[0.22em] text-zinc-400 uppercase">{text}</span>
+      <span className="text-[11px] font-semibold tracking-[0.22em] text-zinc-600 uppercase">{text}</span>
     </div>
   )
 }
@@ -425,7 +425,7 @@ function PersonaCarousel() {
                   <BulletList items={p.goals} size="sm" />
                 </div>
                 <div>
-                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.22em] text-zinc-400">
+                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.22em] text-zinc-600">
                     Pain Points
                   </p>
                   <BulletList items={p.painPoints} size="sm" />
@@ -467,7 +467,7 @@ function PersonaCarousel() {
               →
             </button>
           </div>
-          <p className="text-[12px] text-zinc-400">
+          <p className="text-[12px] text-zinc-600">
             {current + 1} / {personas.length}
           </p>
         </div>
@@ -572,46 +572,22 @@ function FinalDesignSection() {
   )
 }
 
-// ── Dashboard iteration showcase ─────────────────────────────────────────────
+const FIGMA_MAKE_URL = 'https://jab-manage-96892168.figma.site'
 
 const DASH_VERSIONS = [
-  {
-    id: 'v1',
-    label: 'V1',
-    title: 'Gamified · High-energy',
-    caption: 'Strava-inspired: live ticker, streaks, leaderboard. Energetic but too dense — the data hierarchy was unclear.',
-    url: 'sweatpals.app/dashboard — iteration 1',
-    Component: DashboardV1,
-  },
-  {
-    id: 'v2',
-    label: 'V2',
-    title: 'Refined · Tab nav',
-    caption: 'Cleaner layout with tab navigation. Reduced visual noise while preserving data density. Better scannability.',
-    url: 'sweatpals.app/dashboard — iteration 2',
-    Component: DashboardV2,
-  },
-  {
-    id: 'v3',
-    label: 'V3',
-    title: 'Final · Sidebar architecture',
-    caption: 'Persistent sidebar, clear content hierarchy, alert-first layout. This became the submitted design.',
-    url: 'sweatpals.app/dashboard — final',
-    Component: DashboardV3,
-  },
+  { id: 'v1', label: 'V1', title: 'Gamified · High-energy',      caption: 'Strava-inspired: live ticker, streaks, leaderboard. Energetic but too dense — the data hierarchy was unclear.', Component: DashboardV1 },
+  { id: 'v2', label: 'V2', title: 'Refined · Tab nav',           caption: 'Cleaner layout with tab navigation. Reduced visual noise while preserving data density. Better scannability.',      Component: DashboardV2 },
+  { id: 'v3', label: 'V3', title: 'Final · Sidebar architecture', caption: 'Persistent sidebar, clear content hierarchy, alert-first layout. This became the submitted design.',               Component: DashboardV3 },
 ]
 
-// Dashboards are designed at this viewport size
 const DASH_W = 1400
 const DASH_H = 700
 
 function DashboardIterations() {
   const [active, setActive] = useState(0)
-  const [dir, setDir]       = useState(1)
-  const frameRef            = useRef<HTMLDivElement>(null)
-  const [scale, setScale]   = useState(1)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
 
-  // Dynamically compute scale so the dashboard fills the frame edge-to-edge
   useEffect(() => {
     if (!frameRef.current) return
     const measure = () => {
@@ -624,35 +600,19 @@ function DashboardIterations() {
     return () => ro.disconnect()
   }, [])
 
-  function goTo(idx: number) {
-    setDir(idx > active ? 1 : -1)
-    setActive(idx)
-  }
-
   const v = DASH_VERSIONS[active]
   const displayH = Math.round(DASH_H * scale)
 
   return (
     <FadeIn>
-      {/* Scoped — only targets dashboards inside this iterations section */}
-      <style>{`
-        .iterations-wrap .dashboard-v1,
-        .iterations-wrap .dashboard-v2,
-        .iterations-wrap .dashboard-v3 { height: ${DASH_H}px !important; }
-        @keyframes ticker-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-        @keyframes scroll-x     { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-      `}</style>
-
       {/* Version tabs */}
       <div className="mb-4 flex flex-wrap items-center gap-2">
         {DASH_VERSIONS.map((dv, i) => (
           <button
             key={dv.id}
-            onClick={() => goTo(i)}
+            onClick={() => setActive(i)}
             className={`rounded-lg px-4 py-2 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-200 ${
-              i === active
-                ? 'bg-zinc-900 text-white shadow-sm'
-                : 'text-zinc-400 hover:text-zinc-700'
+              i === active ? 'bg-zinc-900 text-white shadow-sm' : 'text-zinc-600 hover:text-zinc-900'
             }`}
           >
             {dv.label} <span className="font-normal normal-case tracking-normal opacity-60">— {dv.title}</span>
@@ -660,77 +620,77 @@ function DashboardIterations() {
         ))}
       </div>
 
-      {/* Browser frame */}
-      <div className="iterations-wrap overflow-hidden rounded-xl border border-zinc-200 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.18)]">
-        {/* macOS-style chrome bar */}
+      {/* Browser chrome + preview */}
+      <div className="group overflow-hidden rounded-xl border border-zinc-200 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.18)]">
+        {/* macOS chrome bar */}
         <div className="flex items-center gap-3 border-b border-zinc-300 bg-[#e8e8e8] px-4 py-2.5">
           <div className="flex shrink-0 gap-1.5">
             <div className="h-3 w-3 rounded-full bg-[#ff5f57] ring-1 ring-black/10" />
             <div className="h-3 w-3 rounded-full bg-[#febc2e] ring-1 ring-black/10" />
             <div className="h-3 w-3 rounded-full bg-[#28c840] ring-1 ring-black/10" />
           </div>
-          {/* Chevrons */}
           <div className="flex gap-1 text-zinc-400">
             <span className="text-[11px]">‹</span>
             <span className="text-[11px]">›</span>
           </div>
-          {/* Address bar */}
           <div className="flex flex-1 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 py-1 text-[11px] text-zinc-400 shadow-inner">
             <span className="text-zinc-300">🔒</span>
-            <span className="truncate">{v.url}</span>
+            <span className="truncate">sweatpals.app / dashboard — {v.title}</span>
           </div>
-          {/* Right icons */}
-          <div className="flex gap-2 text-zinc-400 text-[13px]">⊕ ≡</div>
+          <a
+            href={FIGMA_MAKE_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-500 transition hover:text-zinc-900"
+          >
+            Open interactive ↗
+          </a>
         </div>
 
-        {/* Dashboard — percentage sizing avoids fixed-pixel layout overflow */}
-        <div ref={frameRef} style={{ height: displayH, overflow: 'hidden', position: 'relative' }}>
-          <AnimatePresence custom={dir} mode="wait">
-            <motion.div
-              key={active}
-              custom={dir}
-              initial={{ opacity: 0, x: dir > 0 ? 40 : -40 }}
-              animate={{ opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }}
-              exit={{ opacity: 0, x: dir < 0 ? 40 : -40, transition: { duration: 0.25 } }}
-              style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}
-            >
-              {/* transform creates stacking context → contains position:fixed glow elements */}
-              {scale > 0 && (
-                <div
-                  style={{
-                    transform: `scale(${scale})`,
-                    transformOrigin: 'top left',
-                    width:  `${100 / scale}%`,
-                    height: `${100 / scale}%`,
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <v.Component />
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
+        {/* Scaled static preview + click-through overlay */}
+        <div
+          ref={frameRef}
+          className="relative"
+          style={{ height: displayH, overflow: 'hidden' }}
+        >
+          {/* Static dashboard preview */}
+          <style>{`
+            .dash-preview-wrap .dashboard-v1,
+            .dash-preview-wrap .dashboard-v2,
+            .dash-preview-wrap .dashboard-v3 { height: ${DASH_H}px !important; }
+            @keyframes ticker-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+            @keyframes scroll-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+          `}</style>
+          <div className="dash-preview-wrap" style={{ pointerEvents: 'none' }}>
+            {scale > 0 && (
+              <div style={{
+                transform: `scale(${scale})`,
+                transformOrigin: 'top left',
+                width: `${100 / scale}%`,
+                height: `${100 / scale}%`,
+              }}>
+                <v.Component />
+              </div>
+            )}
+          </div>
+
+          {/* Click overlay — opens Figma Make in new tab */}
+          <a
+            href={FIGMA_MAKE_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open interactive prototype"
+            className="absolute inset-0 flex items-center justify-center bg-zinc-950/0 transition-all duration-300 hover:bg-zinc-950/50"
+          >
+            <span className="scale-90 rounded-full bg-white px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-zinc-900 opacity-0 shadow-xl transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
+              Explore Interactive Prototype ↗
+            </span>
+          </a>
         </div>
       </div>
 
-      {/* Caption + nav */}
-      <div className="mt-4 flex items-start justify-between gap-6">
-        <p className="text-[17px] leading-relaxed text-zinc-500">{v.caption}</p>
-        <div className="flex shrink-0 items-center gap-2">
-          {DASH_VERSIONS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              className="rounded-full transition-all duration-200 focus:outline-none"
-              style={{
-                width: i === active ? 20 : 8,
-                height: 8,
-                background: i === active ? ACCENT : '#d4d4d8',
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      {/* Caption */}
+      <p className="mt-4 text-[15px] leading-relaxed text-zinc-500">{v.caption}</p>
     </FadeIn>
   )
 }
@@ -747,7 +707,7 @@ export default function SweatpalsCaseStudy() {
         className="fixed left-0 right-0 top-[52px] z-50 h-[2px] origin-left"
       />
 
-      <article className="text-left text-zinc-900" style={{ background: '#fcfcfc', overflowX: 'hidden' }}>
+      <article className="text-left text-zinc-900" style={{ background: '#fcfcfc' }}>
 
         {/* ─── HERO ──────────────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-zinc-950 px-5 pb-24 pt-20 sm:px-10 sm:pb-32 sm:pt-28">
@@ -756,19 +716,9 @@ export default function SweatpalsCaseStudy() {
             <div className="absolute bottom-0 left-1/4 h-[400px] w-[400px] rounded-full bg-orange-600/10 blur-[100px]" />
           </div>
 
-          <div className="relative mx-auto max-w-6xl">
-            <Link
-              to="/experience"
-              className="mb-10 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-500 transition-colors hover:text-zinc-300"
-            >
-              ← Experience
-            </Link>
-
+          <div className="relative mx-auto max-w-content">
             <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
               <div className="text-left">
-                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em]" style={{ color: ACCENT }}>
-                  Design Challenge · Feb 2026
-                </p>
                 <h1
                   className="mb-6 text-[clamp(48px,8vw,96px)] font-bold leading-[0.95] tracking-tight text-white text-left"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -805,8 +755,24 @@ export default function SweatpalsCaseStudy() {
           </div>
         </section>
 
+        {/* ─── HERO IMAGE ────────────────────────────────────────────────────── */}
+        <section className="w-full px-5 pt-16 sm:px-10 sm:pt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden rounded-3xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18)]"
+          >
+            <img
+              src="/hero-sweatpals.png"
+              alt="Sweatpals community dashboard"
+              className="w-full object-cover"
+            />
+          </motion.div>
+        </section>
+
         {/* ─── CONTENT ───────────────────────────────────────────────────────── */}
-        <div className="mx-auto max-w-5xl grid gap-24 px-5 py-20 sm:px-10">
+        <div className="mx-auto max-w-5xl flex flex-col gap-24 px-5 py-20 sm:px-10">
 
           {/* 01 / Context */}
           <FadeIn>
@@ -817,21 +783,21 @@ export default function SweatpalsCaseStudy() {
             >
               Community-first fitness, backed by the best
             </h2>
-            <div className="grid gap-8 lg:grid-cols-2">
+            <div className="grid gap-8 desktop:grid-cols-2 [&>*]:min-w-0">
               <div className="space-y-5 text-[20px] leading-[1.75] text-zinc-600 text-left">
                 <p>
-                  Sweatpals is a fitness platform turning workouts into social experiences — connecting hundreds of thousands of "pals," hosts, and gyms through events, memberships, and social features. Backed by a16z, Kevin Hart, Pear VC, and the founders of Instacart and Dreamworks.
+                  Sweatpals is a fitness platform turning workouts into social experiences — connecting over a million "pals," hosts, and gyms through events, memberships, and social features. Backed by Patron, a16z SPEEDRUN, Kevin Hart, and the founders of Instacart and Dreamworks.
                 </p>
                 <p>
-                  The platform gives local leaders — run club organizers, pilates instructors, cold plunge enthusiasts — the tools to grow their fitness communities from side hustles into full-time businesses.
+                  The platform gives local leaders — run club organizers, pilates instructors, and wellness enthusiasts — the tools to grow their fitness communities from side hustles into full-time businesses.
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 [&>*]:min-w-0">
                 {[
-                  { value: '100k+', label: 'Community members' },
-                  { value: '$1M+', label: 'Host businesses enabled' },
-                  { value: 'a16z', label: 'Lead backer' },
-                  { value: '€50/hr', label: 'Challenge rate' },
+                  { value: '1M+', label: 'Active Pals' },
+                  { value: '200K+', label: 'Experiences Hosted' },
+                  { value: 'a16z & Patron', label: 'Lead Investors' },
+                  { value: '30%', label: 'Host discovery growth' },
                 ].map((stat, i) => (
                   <FadeIn key={i} delay={i * 0.07}>
                     <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-5 text-left">
@@ -863,7 +829,7 @@ export default function SweatpalsCaseStudy() {
               <p className="text-[21px] leading-[1.75] text-zinc-700">
                 "Community hosts currently lack comprehensive visibility into their community's health, engagement, financial trends and member behavior. Without actionable insights, they cannot optimize event performance, identify their most engaged members, track community growth, or understand what's working."
               </p>
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+              <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-zinc-600">
                 — Sweatpals Design Brief
               </p>
             </div>
@@ -1146,6 +1112,43 @@ export default function SweatpalsCaseStudy() {
               />
             </div>
 
+            {/* Walk-in interactive prototype */}
+            <FadeIn delay={0.25}>
+              <div className="group mt-10 overflow-hidden rounded-xl border border-zinc-200 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.18)]">
+                {/* macOS chrome bar */}
+                <div className="flex items-center gap-3 border-b border-zinc-300 bg-[#e8e8e8] px-4 py-2.5">
+                  <div className="flex shrink-0 gap-1.5">
+                    <div className="h-3 w-3 rounded-full bg-[#ff5f57] ring-1 ring-black/10" />
+                    <div className="h-3 w-3 rounded-full bg-[#febc2e] ring-1 ring-black/10" />
+                    <div className="h-3 w-3 rounded-full bg-[#28c840] ring-1 ring-black/10" />
+                  </div>
+                  <div className="flex gap-1 text-zinc-400">
+                    <span className="text-[11px]">‹</span>
+                    <span className="text-[11px]">›</span>
+                  </div>
+                  <div className="flex flex-1 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 py-1 text-[11px] text-zinc-400 shadow-inner">
+                    <span className="text-zinc-300">🔒</span>
+                    <span className="truncate">sweatpals.app / walk-in — interactive prototype</span>
+                  </div>
+                  <a
+                    href="https://jab-manage-96892168.figma.site"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-500 transition hover:text-zinc-900"
+                  >
+                    Open ↗
+                  </a>
+                </div>
+                <iframe
+                  src="https://jab-manage-96892168.figma.site"
+                  className="w-full border-0 bg-white"
+                  style={{ height: '780px' }}
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals"
+                  title="Walk-in registration interactive prototype"
+                />
+              </div>
+            </FadeIn>
+
             <FadeIn delay={0.3}>
               <div
                 className="mt-8 flex items-start gap-4 rounded-2xl p-6 text-left"
@@ -1164,7 +1167,7 @@ export default function SweatpalsCaseStudy() {
             {/* Dashboard design iterations */}
             <div className="mt-12">
               <FadeIn delay={0.1}>
-                <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.22em] text-zinc-400">
+                <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.22em] text-zinc-600">
                   Design Iterations
                 </p>
               </FadeIn>
@@ -1212,7 +1215,7 @@ export default function SweatpalsCaseStudy() {
                     <h4 className="text-[19px] font-semibold leading-snug text-zinc-900">{item.decision}</h4>
                   </div>
                   <div>
-                    <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Why</p>
+                    <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600">Why</p>
                     <p className="text-[19px] leading-[1.7] text-zinc-600">{item.why}</p>
                   </div>
                 </div>
@@ -1237,7 +1240,7 @@ export default function SweatpalsCaseStudy() {
                   How do we know if we were successful?
                 </h2>
                 <p
-                  className="mt-4 text-[20px] font-semibold leading-snug text-zinc-400 text-left"
+                  className="mt-4 text-[20px] font-semibold leading-snug text-zinc-700 text-left"
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   How do we know if the dashboard is performing effectively for the business and the host?
@@ -1327,7 +1330,7 @@ export default function SweatpalsCaseStudy() {
                 </ul>
               </div>
               <div className="rounded-2xl border border-zinc-200 bg-white p-7 text-left">
-                <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600">
                   Key Insight
                 </p>
                 <p className="text-[20px] leading-[1.75] text-zinc-700">
@@ -1348,29 +1351,6 @@ export default function SweatpalsCaseStudy() {
           </FadeIn>
         </div>
 
-        {/* ─── NEXT ──────────────────────────────────────────────────────────── */}
-        <section className="border-t border-zinc-100 px-5 py-16 sm:px-10">
-          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-6">
-            <div className="text-left">
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
-                Next Case Study
-              </p>
-              <Link
-                to="/experience/atlassian-jira-align"
-                className="text-[22px] font-bold tracking-tight transition-colors hover:text-zinc-500 text-left"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                Atlassian Jira Align →
-              </Link>
-            </div>
-            <Link
-              to="/experience"
-              className="text-[12px] font-medium uppercase tracking-[0.15em] text-zinc-400 transition-colors hover:text-zinc-900"
-            >
-              ← All Case Studies
-            </Link>
-          </div>
-        </section>
       </article>
     </>
   )

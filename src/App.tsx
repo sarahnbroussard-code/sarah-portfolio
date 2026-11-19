@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound'
 import Services from './pages/Services'
 import Strategy from './pages/Strategy'
 import SweatpalsCaseStudy from './pages/SweatpalsCaseStudy'
+import JiraAlignCaseStudy from './pages/JiraAlignCaseStudy'
 
 export default function App() {
   const location = useLocation()
@@ -19,7 +20,7 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Layout fullWidth>
+            <Layout>
               <Home />
             </Layout>
           }
@@ -27,7 +28,7 @@ export default function App() {
         <Route
           path="/experience"
           element={
-            <Layout fullWidth>
+            <Layout>
               <Experience />
             </Layout>
           }
@@ -35,15 +36,23 @@ export default function App() {
         <Route
           path="/experience/sweatpals"
           element={
-            <Layout fullWidth>
+            <Layout>
               <SweatpalsCaseStudy />
+            </Layout>
+          }
+        />
+        <Route
+          path="/experience/atlassian-jira-align"
+          element={
+            <Layout>
+              <JiraAlignCaseStudy />
             </Layout>
           }
         />
         <Route
           path="/experience/:slug"
           element={
-            <Layout fullWidth>
+            <Layout>
               <CaseStudy />
             </Layout>
           }
@@ -51,7 +60,7 @@ export default function App() {
         <Route
           path="/services"
           element={
-            <Layout fullWidth>
+            <Layout>
               <Services />
             </Layout>
           }
@@ -59,7 +68,7 @@ export default function App() {
         <Route
           path="/strategy"
           element={
-            <Layout fullWidth>
+            <Layout>
               <Strategy />
             </Layout>
           }
@@ -67,7 +76,7 @@ export default function App() {
         <Route
           path="/leadership"
           element={
-            <Layout fullWidth>
+            <Layout>
               <Leadership />
             </Layout>
           }

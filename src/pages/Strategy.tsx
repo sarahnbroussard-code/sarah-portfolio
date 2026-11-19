@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { TextCascade } from '../components/KineticText'
 
 const tools = [
   { name: 'MD Files with Rules', desc: 'Structured markdown documentation that captures design systems, user flows, and interaction patterns. These living documents serve as the foundation for consistent, scalable design implementation across projects.', icon: '🤖' },
@@ -21,113 +20,104 @@ const sprintSteps = [
   { label: '05', title: 'Test', body: 'Validate with real teams, measure productivity gains, and refine based on quantitative results.' },
 ]
 
+const statTiles = [
+  { value: '2',   label: 'Public IPOs',       sub: 'Atlassian · CS DISCO' },
+  { value: '60+', label: 'Products Shipped',  sub: 'Enterprise · SaaS · Consumer' },
+  { value: '15+', label: 'Years Experience',  sub: 'Design leadership' },
+  { value: 'AI',  label: 'Workflows',         sub: 'Powered by Claude · Windsurf' },
+]
+
 export default function Strategy() {
   return (
     <div className="w-full">
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-zinc-950 px-5 pb-20 pt-28 sm:px-10 sm:pt-36">
+
+      {/* SECTION 1: Strategic Design Process */}
+      <section className="relative overflow-hidden bg-zinc-950 px-5 pb-20 pt-28 text-center sm:px-10 sm:pt-36">
         <div className="absolute inset-0 opacity-15">
           <div className="absolute left-1/3 top-1/4 h-[500px] w-[500px] rounded-full bg-violet-500/20 blur-[130px]" />
           <div className="absolute right-1/4 bottom-1/3 h-[400px] w-[400px] rounded-full bg-rose-500/15 blur-[110px]" />
         </div>
 
-        <div className="relative mx-auto max-w-6xl text-left">
-          <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-            DESIGN LEADERSHIP JOURNEY
-          </p>
-          <h1 className="mb-7 max-w-2xl text-[clamp(24px,2.5vw,36px)] font-bold leading-[1.12] tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-            <TextCascade>Over 15+ years leading design teams through two IPOs and multiple acquisitions</TextCascade>
-          </h1>
-          <p className="max-w-2xl text-[17px] leading-[1.7] text-zinc-400">
-            Specializing in AI-powered workflows and enterprise-scale product design. I bridge creative vision with technical implementation through modern AI-assisted development.
-          </p>
-        </div>
-      </section>
+        <div className="relative mx-auto max-w-content">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-6 text-[clamp(32px,4vw,56px)] font-bold leading-tight tracking-tight text-white"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Strategic design process
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mx-auto mb-6 max-w-2xl text-[17px] leading-[1.75] text-zinc-300"
+          >
+            A proven strategic framework for translating ambitious product visions into actionable, phased roadmaps. Used across multiple companies to align stakeholders, define user journeys, and drive measurable growth.
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mx-auto mb-16 max-w-2xl text-[15px] leading-[1.75] text-zinc-400"
+          >
+            I build AI-augmented design sprint playbooks that compress weeks of work into days. By combining Windsurf with Claude for reasoning, Figma Make and V0.dev for rapid prototyping, and NotebookLM for research synthesis, my teams explore 10x more concepts and ship validated work in record time.
+          </motion.p>
 
-      {/* APPROACH */}
-      <section className="relative border-y border-zinc-800/60 bg-zinc-950 px-5 py-24 sm:px-10">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-16 grid gap-8 lg:grid-cols-2">
-            <div>
-              <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-                CURRENT ROLE
-              </p>
-              <h2 className="mb-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                Senior Product Designer at Atlassian
-              </h2>
-              <p className="text-[15px] leading-[1.75] text-zinc-400">
-                Leading enterprise-scale initiatives for Jira Align, an agile planning platform serving thousands of engineering teams. I drive AI integration strategy and cross-functional alignment across product, engineering, and design.
-              </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm">
-                <p className="mb-2 text-[32px] font-bold text-white">2</p>
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">Public IPOs</p>
-                <p className="mt-1 text-[13px] text-zinc-600">Atlassian · CS DISCO</p>
-              </div>
-              <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm">
-                <p className="mb-2 text-[32px] font-bold text-white">60+</p>
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">Products Shipped</p>
-                <p className="mt-1 text-[13px] text-zinc-600">Enterprise · SaaS · Consumer</p>
-              </div>
-              <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm">
-                <p className="mb-2 text-[32px] font-bold text-white">15+</p>
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">Years Experience</p>
-                <p className="mt-1 text-[13px] text-zinc-600">Design leadership</p>
-              </div>
-              <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm">
-                <p className="mb-2 text-[32px] font-bold text-white">AI</p>
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">Workflows</p>
-                <p className="mt-1 text-[13px] text-zinc-600">Powered by Claude · Windsurf</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AI-POWERED REVOLUTION */}
-      <section className="relative bg-zinc-950 px-5 py-24 sm:px-10">
-        <div className="mx-auto max-w-6xl text-center">
-          <div className="mb-14">
-            <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-              AI-POWERED DESIGN REVOLUTION
-            </p>
-            <h2 className="text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-              Empowering High-Performance Design Teams
-            </h2>
-          </div>
-
-          <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {tools.map((t, i) => (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {statTiles.map((tile, i) => (
               <motion.div
-                key={t.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
-                className="group relative overflow-hidden rounded-2xl border border-zinc-800/50 bg-zinc-900/30 p-6 transition-colors hover:border-zinc-700/60 hover:bg-zinc-900/50"
+                key={tile.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + i * 0.08 }}
+                className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm"
               >
-                <div className="mb-4 text-2xl text-zinc-600 transition-colors group-hover:text-white">{t.icon}</div>
-                <h3 className="mb-1 text-base font-semibold tracking-tight text-white">{t.name}</h3>
-                <p className="text-[13px] leading-relaxed text-zinc-500">{t.desc}</p>
+                <p className="mb-2 text-[32px] font-bold text-white">{tile.value}</p>
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">{tile.label}</p>
+                <p className="mt-1 text-[13px] text-zinc-600">{tile.sub}</p>
               </motion.div>
             ))}
           </div>
-
-          <p className="mx-auto max-w-3xl text-center text-[15px] leading-[1.75] text-zinc-400">
-            I build AI-augmented design sprint playbooks that compress weeks of work into days. By combining 
-            <span className="text-zinc-300"> Windsurf</span> with 
-            <span className="text-zinc-300"> Claude</span> for reasoning, 
-            <span className="text-zinc-300"> Figma Make</span> and 
-            <span className="text-zinc-300"> V0.dev</span> for rapid prototyping, and 
-            <span className="text-zinc-300"> NotebookLM</span> for research synthesis, my teams explore 10x more concepts and ship validated work in record time.
-          </p>
         </div>
       </section>
 
-      {/* SPRINT METHODOLOGY */}
+      {/* SECTION 2: Career Impact Summary */}
+      <section className="relative bg-zinc-950 px-5 py-24 text-center sm:px-10">
+        <div className="mx-auto max-w-content">
+          <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
+            ENTERPRISE SCALE & BUSINESS IMPACT
+          </p>
+          <h2 className="mb-12 text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            Career Impact Summary
+          </h2>
+          <div className="mx-auto flex flex-col items-center gap-6">
+            <div className="flex items-start gap-4 text-left">
+              <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-500" />
+              <p className="text-[15px] leading-[1.75] text-zinc-400">
+                Led design for <span className="font-medium text-zinc-300">Jira Align</span> enterprise agile planning, serving thousands of engineering teams across Fortune 500 companies.
+              </p>
+            </div>
+            <div className="flex items-start gap-4 text-left">
+              <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-500" />
+              <p className="text-[15px] leading-[1.75] text-zinc-400">
+                Shipped <span className="font-medium text-zinc-300">60+ products</span> across AI, legal tech, beauty, and developer tools — two of which reached public IPO.
+              </p>
+            </div>
+            <div className="flex items-start gap-4 text-left">
+              <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-500" />
+              <p className="text-[15px] leading-[1.75] text-zinc-400">
+                Scaled design teams from 2 to 12+ while maintaining velocity, quality, and a culture of craft-first execution.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: AI-Enhanced Design Sprint */}
       <section className="relative border-y border-zinc-800/60 bg-zinc-950 px-5 py-24 sm:px-10">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-content">
           <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
             AI-ENHANCED DESIGN SPRINT
           </p>
@@ -158,38 +148,33 @@ export default function Strategy() {
         </div>
       </section>
 
-      {/* ENTERPRISE SCALE */}
+      {/* SECTION 4: AI-Powered Design Revolution */}
       <section className="relative bg-zinc-950 px-5 py-24 sm:px-10">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-12 grid gap-10 lg:grid-cols-2">
-            <div>
-              <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
-                ENTERPRISE SCALE & BUSINESS IMPACT
-              </p>
-              <h2 className="text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                Career Impact Summary
-              </h2>
-            </div>
-            <div className="flex flex-col justify-center gap-6">
-              <div className="flex items-start gap-4">
-                <div className="mt-1 h-1.5 w-1.5 rounded-full bg-zinc-500" />
-                <p className="text-[15px] leading-[1.75] text-zinc-400">
-                  Led design for <span className="font-medium text-zinc-300">Jira Align</span> enterprise agile planning, serving thousands of engineering teams across Fortune 500 companies.
-                </p>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="mt-1 h-1.5 w-1.5 rounded-full bg-zinc-500" />
-                <p className="text-[15px] leading-[1.75] text-zinc-400">
-                  Shipped <span className="font-medium text-zinc-300">60+ products</span> across AI, legal tech, beauty, and developer tools — two of which reached public IPO.
-                </p>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="mt-1 h-1.5 w-1.5 rounded-full bg-zinc-500" />
-                <p className="text-[15px] leading-[1.75] text-zinc-400">
-                  Scaled design teams from 2 to 12+ while maintaining velocity, quality, and a culture of craft-first execution.
-                </p>
-              </div>
-            </div>
+        <div className="mx-auto max-w-content text-center">
+          <div className="mb-14">
+            <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500">
+              AI-POWERED DESIGN REVOLUTION
+            </p>
+            <h2 className="text-[clamp(26px,3vw,40px)] font-bold leading-tight tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+              Empowering High-Performance Design Teams
+            </h2>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {tools.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.08 }}
+                className="group relative overflow-hidden rounded-2xl border border-zinc-800/50 bg-zinc-900/30 p-6 transition-colors hover:border-zinc-700/60 hover:bg-zinc-900/50"
+              >
+                <div className="mb-4 text-2xl text-zinc-600 transition-colors group-hover:text-white">{t.icon}</div>
+                <h3 className="mb-1 text-base font-semibold tracking-tight text-white">{t.name}</h3>
+                <p className="text-[13px] leading-relaxed text-zinc-500">{t.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -209,17 +194,18 @@ export default function Strategy() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/experience"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-zinc-950 transition hover:bg-zinc-200"
+              className="inline-flex items-center gap-3 border border-white/35 px-11 py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition hover:bg-white hover:text-zinc-900"
             >
               View Case Studies
-              <span>→</span>
+              <span className="text-sm">→</span>
             </Link>
-            <Link
-              to="/leadership"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-8 py-3.5 text-[12px] font-medium uppercase tracking-[0.1em] text-zinc-400 transition hover:border-zinc-500 hover:text-white"
+            <a
+              href="/resume.pdf"
+              className="inline-flex items-center gap-3 border border-white/35 px-11 py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-white transition hover:bg-white hover:text-zinc-900"
             >
-              Leadership
-            </Link>
+              View Detailed Experience
+              <span className="text-sm">→</span>
+            </a>
           </div>
         </div>
       </section>

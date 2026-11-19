@@ -1,11 +1,8 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Link } from 'react-router-dom'
 import Page from '../components/Page'
-import ExpensiveCard from '../components/ExpensiveCard'
 import RolodexNumber from '../components/RolodexNumber'
-import { TextScramble, ShimmerText } from '../components/KineticText'
-import { caseStudies } from '../data/caseStudies'
+import EmailButton from '../components/EmailButton'
 
 // ── animation helpers ────────────────────────────────────────────────────────
 
@@ -14,12 +11,18 @@ const fadeUp = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+    transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
   },
 }
+
 const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
+}
+
+const heroStagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
 }
 
 // ── data ─────────────────────────────────────────────────────────────────────
@@ -29,6 +32,7 @@ const stats = [
   { value: '2',  suffix: '',  label: 'Public IPOs',       delay: 0.2 },
   { value: '60', suffix: '+', label: 'Products Shipped',  delay: 0.4 },
   { value: '4',  suffix: '',  label: 'Industries',        delay: 0.6 },
+  { value: '1',  suffix: '',  label: 'Acquisition',       delay: 0.8 },
 ]
 
 const recommendations = [
@@ -86,8 +90,8 @@ function StatsSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="bg-zinc-950 px-8 py-24 sm:px-16">
-      <div className="mx-auto max-w-6xl">
+    <section ref={ref} className="bg-zinc-950 py-24 px-5 sm:px-10">
+      <div className="mx-auto max-w-content">
         <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -97,7 +101,7 @@ function StatsSection() {
           By the numbers
         </motion.p>
 
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-5">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
@@ -121,186 +125,6 @@ function StatsSection() {
   )
 }
 
-function PhotoSection() {
-  return (
-    <section className="overflow-hidden bg-zinc-900 px-8 py-0 sm:px-0">
-      <div className="mx-auto grid max-w-none items-center lg:grid-cols-2">
-        {/* Photo */}
-        <div className="relative flex items-end justify-center overflow-hidden bg-zinc-900" style={{ minHeight: 520 }}>
-          {/* Glow */}
-          <div
-            className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2"
-            style={{
-              width: 440,
-              height: 300,
-              borderRadius: '50%',
-              background: 'radial-gradient(ellipse, rgba(170,59,255,0.22) 0%, transparent 70%)',
-              filter: 'blur(50px)',
-            }}
-          />
-          <motion.img
-            src="/Sarah_Photo.jpg"
-            alt="Sarah Broussard"
-            className="relative z-10 w-full max-w-lg select-none object-cover sm:max-w-xl"
-            style={{
-              filter: 'brightness(0.82) contrast(1.08) saturate(0.7)',
-              WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
-            }}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            animate={{ y: [0, -18, 0] }}
-          />
-        </div>
-
-        {/* Copy */}
-        <motion.div
-          className="px-8 py-16 sm:px-16 lg:px-20"
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          <motion.p
-            variants={fadeUp}
-            className="mb-4 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500"
-          >
-            About
-          </motion.p>
-
-          <motion.h2
-            variants={fadeUp}
-            className="mb-6 text-[clamp(28px,3vw,46px)] font-bold leading-tight tracking-tight text-white"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            <TextScramble text="15 years shipping." className="block" />
-            <span className="mt-1 block text-zinc-500">Still picking food</span>
-            <span className="block">off my shirt.</span>
-          </motion.h2>
-
-          <motion.div
-            variants={fadeUp}
-            className="mb-8 h-px w-16 bg-[#aa3bff]"
-          />
-
-          <motion.p
-            variants={fadeUp}
-            className="max-w-sm text-[15px] leading-[1.85] text-zinc-400"
-          >
-            Lead Product Designer with{' '}
-            <strong className="font-semibold text-white">15+ years</strong> driving enterprise
-            and SaaS strategy across AI, legal tech, beauty, and developer tools. Two publicly
-            traded companies. One acquisition. Shipped across{' '}
-            <strong className="font-semibold text-white">four industries</strong>.
-          </motion.p>
-
-          <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-4">
-            <a
-              href="/resume.pdf"
-              className="inline-flex items-center gap-2 border border-white/15 px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:border-[#aa3bff] hover:text-[#c084fc]"
-            >
-              Download Resume ↓
-            </a>
-            <a
-              href="mailto:sarah.n.broussard@gmail.com"
-              className="inline-flex items-center gap-2 px-7 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-500 transition hover:text-white"
-            >
-              Email →
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  )
-}
-
-function CaseStudiesSection() {
-  const [featured, ...rest] = caseStudies
-  return (
-    <section className="bg-zinc-950 px-8 py-24 sm:px-16">
-      <div className="mx-auto w-full max-w-6xl">
-        {/* Header */}
-        <div className="mb-14 flex items-end justify-between">
-          <div>
-            <motion.p
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500"
-            >
-              Selected Work
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(28px,3vw,44px)] font-bold leading-tight tracking-tight text-white"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              <ShimmerText className="text-[clamp(28px,3vw,44px)] font-bold leading-tight tracking-tight">
-                Case Studies
-              </ShimmerText>
-            </motion.h2>
-          </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <Link
-              to="/experience"
-              className="hidden text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-500 transition hover:text-white sm:block"
-            >
-              View all →
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Featured first card — full width */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-5"
-        >
-          <ExpensiveCard
-            title={featured.title}
-            subtitle={featured.subtitle}
-            tags={featured.tags}
-            year={featured.year}
-            heroImage={featured.heroImage}
-            slug={featured.slug}
-            index={0}
-            featured
-          />
-        </motion.div>
-
-        {/* Grid of remaining cards */}
-        <div className="grid items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {rest.map((cs, i) => (
-            <ExpensiveCard
-              key={cs.slug}
-              title={cs.title}
-              subtitle={cs.subtitle}
-              tags={cs.tags}
-              year={cs.year}
-              heroImage={cs.heroImage}
-              slug={cs.slug}
-              index={i + 1}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Leadership() {
@@ -308,71 +132,99 @@ export default function Leadership() {
     <Page>
       <div className="w-full">
 
-        {/* ── HERO ──────────────────────────────────────────────────────────── */}
-        <section
-          className="relative w-full overflow-hidden"
-          style={{ height: '945px', maxHeight: '945px' }}
-        >
-          <img
-            src="/Leadership.webp"
-            alt="Sarah Broussard working"
-            className="absolute inset-0 h-full w-full object-cover object-center"
-            style={{ width: '1418px', maxWidth: '100%' }}
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/10 to-transparent" />
+        {/* ── HERO — matches Home page first section layout ──────────────────── */}
+        <section className="relative bg-black pt-28 sm:pt-36">
+          <div className="mx-auto grid w-full max-w-content items-start gap-10 px-5 sm:px-10 lg:grid-cols-2">
 
-          <div className="absolute bottom-0 left-0 right-0 px-8 pb-16 sm:px-16 sm:pb-20">
+            {/* Left: text */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-block max-w-2xl rounded-2xl bg-white/10 p-8 backdrop-blur-md ring-1 ring-white/20"
+              className="grid gap-4 pb-16 text-left"
+              variants={heroStagger}
+              initial="hidden"
+              animate="show"
             >
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-                className="mb-3 text-[11px] font-medium uppercase tracking-[0.28em] text-white/70"
+                variants={fadeUp}
+                className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/60"
               >
-                Product Design Leadership
+                Product Design Leader
               </motion.p>
 
-              <h1
-                className="mb-4 text-[clamp(36px,4.5vw,64px)] font-bold leading-[1.05] tracking-tight text-white"
+              <motion.h1
+                variants={fadeUp}
+                className="text-[clamp(22px,2.6vw,36px)] font-bold leading-[1.2] tracking-tight text-white"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                <TextScramble text="Sarah Broussard" className="block" />
-              </h1>
+                15+ years driving enterprise and SaaS strategy across AI, legal tech, beauty, and developer tools. Two publicly traded companies. One acquisition. Shipped across four industries.
+              </motion.h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
-                className="max-w-md text-[16px] leading-[1.75] text-white/80"
+              <motion.div variants={fadeUp} className="h-px w-16 bg-white/20" />
+            </motion.div>
+
+            {/* Right: leadership photo */}
+            <motion.div
+              className="hidden items-start justify-end pb-16 lg:flex"
+              initial={{ opacity: 0, x: 28 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const }}
+            >
+              <img
+                src="/leadership-hero.jpg"
+                alt="Sarah Broussard"
+                className="w-full max-w-lg select-none rounded-sm object-cover"
+                style={{
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+                  maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+                }}
+                loading="eager"
+              />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── VIBE-CODE ABOUT ───────────────────────────────────────────────── */}
+        <section className="relative bg-zinc-900 py-24 text-center shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+          <div className="mx-auto w-full max-w-3xl px-5 sm:px-10">
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-60px' }}
+            >
+              <motion.span
+                variants={fadeUp}
+                className="block text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-400"
               >
-                15+ years shipping enterprise software across AI, legal tech, beauty, and
-                developer tools.
+                About
+              </motion.span>
+              <motion.p
+                variants={fadeUp}
+                className="mt-10 text-[19px] font-light leading-[1.85] text-white/85"
+              >
+                As a professional vibe-code designer, I bridge the gap between creative design
+                vision and technical implementation through AI-powered development workflows. With{' '}
+                <strong className="font-medium text-white">15+ years</strong> of experience across
+                multiple industries and two successful IPOs, I specialize in crafting exceptional
+                digital experiences using modern tools and methodologies. My approach integrates
+                strategic design thinking with cutting-edge technologies like{' '}
+                <strong className="font-medium text-white">Windsurf, Claude AI, and Figma MCP</strong>{' '}
+                to deliver production-ready solutions that combine aesthetic excellence with
+                functional perfection. I excel at establishing scalable processes that empower
+                teams to work smarter, collaborate better, and deliver outstanding results while
+                maintaining the highest standards of user experience and code quality.
               </motion.p>
             </motion.div>
           </div>
         </section>
 
-        {/* ── PHOTO + BIO ───────────────────────────────────────────────────── */}
-        <PhotoSection />
-
         {/* ── ROLODEX STATS ─────────────────────────────────────────────────── */}
         <StatsSection />
 
-        {/* ── CASE STUDIES ──────────────────────────────────────────────────── */}
-        <CaseStudiesSection />
-
         {/* ── RECOMMENDATIONS ───────────────────────────────────────────────── */}
-        <section className="bg-white px-8 py-24 sm:px-16">
-          <div className="mx-auto w-full max-w-6xl">
+        <section className="bg-white py-24 px-5 sm:px-10">
+          <div className="mx-auto w-full max-w-content">
             <div className="mb-16">
-              <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-400">
+              <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-600">
                 Recommendations
               </p>
               <h2
@@ -435,16 +287,10 @@ export default function Leadership() {
               Let's build something extraordinary.
             </motion.h2>
             <motion.p variants={fadeUp} className="mb-10 text-[15px] leading-relaxed text-zinc-400">
-              Open to senior product design roles, advisory positions, and ambitious
-              collaborations.
+              Open to senior product design roles, advisory positions, and ambitious collaborations.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
-              <a
-                href="mailto:sarah.n.broussard@gmail.com"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-zinc-950 transition hover:bg-zinc-200"
-              >
-                Get in Touch
-              </a>
+              <EmailButton label="Get in Touch" variant="primary" />
               <a
                 href="/resume.pdf"
                 className="inline-flex items-center gap-2 border border-white/20 px-8 py-3.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-white transition hover:border-[#aa3bff] hover:text-[#c084fc]"

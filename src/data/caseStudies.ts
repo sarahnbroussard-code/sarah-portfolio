@@ -3,10 +3,46 @@ export type CaseStudySection = {
   body: string
   label?: string
   image?: string
+  caption?: string
   stats?: { value: string; label: string }[]
   embedUrl?: string
-  features?: { title: string; body?: string }[]
-  steps?: { title: string; body: string; image?: string }[]
+  images?: string[]
+  gifs?: string[]
+  features?: { title: string; body?: string; video?: string; emoji?: string }[]
+  featureLayout?: 'accordion' | 'cards'   // defaults to 'accordion'
+  steps?: { title: string; body: string; image?: string; images?: string[]; embedUrl?: string; screenshot?: string }[]
+
+  // ─── Layout variants ─────────────────────────────────────────────────────────
+  // 'tabs'         : centered header + tab row, each tab has left text + right image/video
+  // 'feature-grid' : 2-column card grid, each card has optional screenshot + icon/title/body
+  // 'split'        : two-column — text/bullet-sections on one side, image on the other
+  layout?: 'tabs' | 'feature-grid' | 'split' | 'gallery'
+  secondImage?: string   // when set alongside image, the two render side-by-side
+
+  // layout: 'tabs'
+  tabs?: {
+    label: string
+    title: string
+    body?: string
+    linkText?: string
+    linkUrl?: string
+    image?: string
+    video?: string
+    embedUrl?: string
+  }[]
+
+  // layout: 'feature-grid'
+  cards?: {
+    icon?: string   // emoji or short text badge
+    title: string
+    body: string
+    image?: string
+    video?: string
+  }[]
+
+  // layout: 'split'
+  imagePosition?: 'left' | 'right'   // defaults to 'right'
+  bulletSections?: { title: string; body: string }[]
 }
 
 export type CaseStudy = {
@@ -16,7 +52,9 @@ export type CaseStudy = {
   tags: string[]
   year: string
   role: string
+  company: string
   heroImage?: string
+  heroImageFit?: 'cover' | 'contain'
   sections: CaseStudySection[]
 }
 
@@ -25,10 +63,12 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'sweatpals',
     title: 'Sweatpals',
-    subtitle: 'Community dashboard · Design challenge · 2026',
-    tags: ['Consumer', 'SaaS', 'Dashboard'],
+    subtitle: 'Dashboard · Strategy · Vibe Code',
+    tags: ['B2C', 'B2B', 'Dashboard', 'AI workflow'],
     year: '2026',
     role: 'Product Designer',
+    company: 'Sweatpals',
+    heroImage: '/hero-sweatpals.png',
     sections: [],
   },
 
@@ -36,10 +76,11 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'atlassian-jira-align',
     title: 'Atlassian Jira Align',
-    subtitle: 'Enterprise · SaaS · Strategy',
+    subtitle: 'Enterprise · SaaS · E2E design',
     tags: ['Enterprise', 'SaaS', 'Strategy'],
     year: '2021 – Present',
     role: 'Senior Product Designer',
+    company: 'Atlassian',
     heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/acfcd7e1-6b9c-40ae-874d-6fc5e19cf1cb/Jiral+Align_hero.png',
     sections: [
       {
@@ -70,18 +111,52 @@ export const caseStudies: CaseStudy[] = [
       {
         label: 'Goal',
         title: 'What is the GOAL',
-        body: "Jira Align's FY25 product strategy is to mitigate churn. The Jira Align reporting feature was not meeting the needs of our customers. It takes too much time for customers to begin using Enterprise Insights (EI). Knowing EI is a powerful retention driver, we need to do two things to increase adoption:\n\n**Increase adoption:** the number of active customers who have EI (EI users had ~12% lower churn).\n\n**Reduce Support Load:** Help customers onboard and use EI successfully.\n\n**Deliver on Atlassian's vision** of unified analytics across its product suite.",
+        body: "Jira Align's FY25 product strategy is to mitigate churn. The Jira Align reporting feature was not meeting the needs of our customers. It takes too much time for customers to begin using Enterprise Insights (EI). Knowing EI is a powerful retention driver, we need to do two things to increase adoption:\n\n🚀 **Increase adoption:** the number of active customers who have EI (EI users had ~12% lower churn).\n\n📉 **Reduce Support Load:** Help customers onboard and use EI successfully.\n\n⭐ **Deliver on Atlassian's vision** of unified analytics across its product suite.",
       },
       {
         label: 'Opportunities',
         title: 'Areas of Opportunity',
-        body: '**DIFFICULT TO SHOW ROI**\n\nWith a confusing information architecture and missing features, users had a hard time talking about the value of Jira Align unless they worked with an account or support person.\n\n**CONFUSING INFORMATION ARCHITECTURE**\n\nAfter years of additive work to the product to meet the growing needs of users, it struggled to keep up and became a fragmented experience from Atlassian integrations. This meant that users struggled to connect to their work, and third-party data sources. Users leaned heavily on our internal support teams.\n\n**REQUIRES HUMAN INTERVENTION**\n\nThe current experience was missing a focus on self service. So much of the experience required reaching out to support to connect, and view their own data.\n\n**OUTDATED TECH**\n\nBuilt on an outdated tech stack, any work done to the Jira Align reporting experience was time intensive, and struggled to be performant.\n\n**INTEGRATE WITH EI + ATLASSIAN ANALYTICS**\n\nWe identified an opportunity to replace a manual, siloed reporting process with live, connected dashboards—giving stakeholders self-serve access to real-time visibility across execution, outcomes, and the behavioral signals needed to make smarter product decisions.\n\n**REDUCE CUSTOMER CHURN**\n\nOpportunity to use Atlassian Analytics in order to bridge the reporting gap for Jira Align cloud customers.',
+        body: 'Six opportunity areas surfaced from the discovery work — three pain points to fix, three to lean into.',
+        featureLayout: 'cards',
+        features: [
+          {
+            emoji: '📊',
+            title: 'Difficult to show ROI',
+            body: 'With a confusing information architecture and missing features, users had a hard time talking about the value of Jira Align unless they worked with an account or support person.',
+          },
+          {
+            emoji: '🗺️',
+            title: 'Confusing information architecture',
+            body: 'After years of additive work to the product to meet the growing needs of users, it struggled to keep up and became a fragmented experience from Atlassian integrations. This meant that users struggled to connect to their work and third-party data sources. Users leaned heavily on our internal support teams.',
+          },
+          {
+            emoji: '🤝',
+            title: 'Requires human intervention',
+            body: 'The current experience was missing a focus on self-service. So much of the experience required reaching out to support to connect and view their own data.',
+          },
+          {
+            emoji: '⚙️',
+            title: 'Outdated tech',
+            body: 'Built on an outdated tech stack, any work done to the Jira Align reporting experience was time-intensive and struggled to be performant.',
+          },
+          {
+            emoji: '🔗',
+            title: 'Integrate with EI + Atlassian Analytics',
+            body: 'We identified an opportunity to replace a manual, siloed reporting process with live, connected dashboards — giving stakeholders self-serve access to real-time visibility across execution, outcomes, and the behavioral signals needed to make smarter product decisions.',
+          },
+          {
+            emoji: '📈',
+            title: 'Reduce customer churn',
+            body: 'Opportunity to use Atlassian Analytics to bridge the reporting gap for Jira Align cloud customers.',
+          },
+        ],
       },
       {
         label: 'Research',
         title: 'Support ticket volume',
         body: 'We reviewed Enterprise Insights support tickets and identified that 47% were related to setting up user access to Enterprise Insights. The average support team spent upwards of 168 hours per month setting up user access to Enterprise Insights.',
         image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1d28b891-cce8-46c3-8b8e-d7b064c92a8a/Screenshot+2025-11-18+at+2.38.42%E2%80%AFPM.png',
+        secondImage: '/JiraAlignTickets.png',
         stats: [
           { value: '47%', label: 'of support tickets related to EI access setup' },
           { value: '168 hrs', label: 'avg. monthly hours spent on user access setup' },
@@ -91,7 +166,7 @@ export const caseStudies: CaseStudy[] = [
         label: 'Research',
         title: 'Value Proposition Canvas',
         body: "The Value Proposition Canvas (VPC) is a strategic tool designed to help businesses clearly understand their customers' needs and systematically align their services to meet those needs.\n\nThis allowed us to improve our understanding of our customers' needs (jobs + pains + gains) and to identify how our services help them complete their jobs. We can track this journey (customer feedback + testing various metrics) and make adjustments based on insights gained. I led several sessions with customers to identify their jobs to be done, pains, and gains.\n\nVPC is most valuable when:\n\n• The problem is unclear or messy 👉 forces clarity\n• Stakeholders are misaligned 👉 creates a shared definition of success between teams\n• You're prioritizing what to build 👉 creates priority and stronger product decisions\n• You're designing complex systems 👉 whole systems visibility and defensible design POV",
-        embedUrl: 'https://app.mural.co/t/personal20020/m/personal20020/1747073337200/b51453c0c3010c277a4d4eb00e612d56ce83c6e5',
+        embedUrl: 'https://app.mural.co/embed/00470e0e-2a0b-4343-98e9-611dd6fc9fdc',
       },
       {
         label: 'Strategy',
@@ -113,10 +188,12 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        layout: 'split',
+        imagePosition: 'right',
         label: 'Research',
         title: 'Learnings from users',
         body: 'I led discovery sessions with customers and internal stakeholders to align on the broader problem and uncover where the existing experience met expectations versus where it created friction. These conversations gave us direct visibility into day-to-day user behavior, helping us ground product decisions in real-world workflows rather than assumptions.\n\n**User types interviewed:** Jira Align Administrator · Jira Align Support Engineer · Reporting Analyst\n\n**Customer companies:** Expedia · GM · Ford · ASML',
-        image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/85c9e92a-76ae-41c5-8906-bb84a503d12d/Personas-+slide.jpg',
+        image: '/UserChallenges.png',
       },
       {
         label: 'Solution',
@@ -146,21 +223,22 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        layout: 'tabs',
         label: 'Design & Solution',
         title: 'Designing the self-service EI administration experience',
-        body: 'Three design phases that moved from concept to a fully shipped admin flow — each one eliminating a specific layer of support dependency.',
-        steps: [
+        body: '',
+        tabs: [
           {
+            label: 'The Solution Concept',
             title: 'The Solution Concept',
             body: 'We designed a self-service EI onboarding experience that eliminated the need for Atlassian support engineers from the setup path entirely.',
+            video: '/protoype of Enterprise Insights copy.mov',
           },
           {
-            title: 'The Self-Service Admin Flow',
-            body: 'The key screens of the EI Administration integration within Jira Align. Walk through the connection flow: discover → configure → connect → validate.',
-          },
-          {
+            label: 'Dashboard Templates',
             title: 'Dashboard Templates',
             body: 'Five starter dashboard templates (Epic Status, Value Stream Flow Metrics, Portfolio Flow Metrics, OKR Health, Process Step Cycle Time) for immediate value on day one.',
+            embedUrl: 'https://thunderous-macaron-d5a393.netlify.app/',
           },
         ],
       },
@@ -171,8 +249,11 @@ export const caseStudies: CaseStudy[] = [
         steps: [
           {
             title: 'Admin journey — provisioning',
-            body: 'The administrator flow from first login through firewall setup, user provisioning, and connection validation.',
-            image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/4f8b4139-b3e5-4dbf-835e-d7f6d9319a7c/Screenshot+2023-05-02+at+12.06+3.png',
+            body: 'The administrator flow from first login through firewall setup, user provisioning, and connection validation. Below: the legacy launch process compared to the new self-service admin UI flow.',
+            images: [
+              '/Screenshot+2023-05-02+at+12.06+1.png',
+              '/Screenshot+2023-05-02+at+12.06+3.png',
+            ],
           },
           {
             title: 'User journey — onboarding to insights',
@@ -187,17 +268,22 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        layout: 'feature-grid',
         label: 'Impact & Outcomes',
         title: 'Two workstreams, one shared goal',
         body: 'Designed for two connected workstreams with the same shared goal.',
-        features: [
+        cards: [
           {
+            icon: '⚡',
             title: 'Workstream 1 — Self-Service Onboarding Wizard',
             body: 'Replaced an 11-step manual support runbook with an in-product onboarding wizard. Admins can now configure firewall rules, provision users, and connect to Atlassian Analytics — with zero support intervention.',
+            video: '/Rotomovie2.mov',
           },
           {
+            icon: '📊',
             title: 'Workstream 2 — Enterprise Insights + Atlassian Analytics',
             body: 'Designed a native AA dashboard template using EI as a data source. Replaced third-party BI tools (Tableau, Power BI) with an in-product, self-service analytics experience.',
+            video: '/FlowMetrics copy.mov',
           },
         ],
       },
@@ -213,52 +299,118 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'jira-align-1',
     title: 'Navigation',
-    subtitle: 'Information architecture + enterprise navigation',
-    tags: ['IA', 'Navigation', 'Enterprise'],
+    subtitle: 'IA · Enterprise · Navigation',
+    tags: ['IA', 'Enterprise', 'Navigation'],
     year: '2024',
     role: 'Lead Product Designer',
+    company: 'Atlassian',
     heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/2e9372b9-393a-49ae-9058-c51f5d91876f/navigation+hero.png',
+    heroImageFit: 'contain',
     sections: [
       {
+        layout: 'split',
         title: 'Enterprise Agility at Scale',
         body: 'I led the product design team for Jira Align, Atlassian\'s enterprise agility platform. Our mission: simplify a complex product, strengthen cross-functional alignment, and scale design to support rapid cloud growth. The impact? Increased user satisfaction, stronger product-market fit, and accelerated enterprise adoption.',
+        image: '/IntroJiraAlign.png',
       },
       {
+        layout: 'feature-grid',
+        label: '',
+        title: 'Our Challenges',
+        body: '',
+        cards: [
+          {
+            icon: '⚠️',
+            title: 'Unstable Integrations',
+            body: 'The Jira connector — critical to the product — was often inaccurate and unreliable.',
+          },
+          {
+            icon: '📉',
+            title: 'Low CSAT',
+            body: 'Users were frustrated with navigation and complexity. They valued outcomes, not the process.',
+          },
+          {
+            icon: '🧩',
+            title: 'Inconsistent UX',
+            body: 'After the AgileCraft acquisition, experiences were duplicated and disconnected.',
+          },
+          {
+            icon: '🏚️',
+            title: 'Aging Codebase',
+            body: 'Legacy infrastructure slowed innovation and split focus between fixing and building.',
+          },
+        ],
+      },
+      {
+        layout: 'tabs',
         label: 'Research & Insights',
         title: 'Research & Insights',
         body: 'Through user telemetry, in-app feedback, and eye-tracking studies, we identified key friction points and mental patterns that shaped the redesign.',
-        steps: [
+        tabs: [
           {
+            label: 'Nested Navigation',
             title: 'Nested Navigation',
             body: "Users consistently struggled to locate pages, with navigation described as 'deep' and 'confusing.' Eye-tracking showed users spending excessive time scanning the left nav before finding their destination.",
             image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/32ec87ae-281d-4064-ac39-f747fc95e5a2/oldprogram+room.png',
           },
           {
+            label: 'Bloated Product',
             title: 'Bloated Product',
             body: 'Too many unused features cluttered the interface and overwhelmed users. Feature discovery research showed that over 60% of nav items were rarely or never used by the majority of customers.',
+            image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/6d8591f1-79de-44ef-b018-74b686f5a89e/Screenshot+2025-12-04+at+2.00.40%E2%80%AFPM.png',
+          },
+          {
+            label: 'Homepage Friction',
+            title: 'Homepage Friction',
+            body: "Valuable homepage real estate was being wasted by tutorials that weren't widely used. As software that tracks goals and work, users wanted a dashboard to clearly get a high-level view of their programs and status.",
             image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/de22f92c-97f1-45b7-8fa0-6fbcf923fe2c/OldHomepage.png',
           },
           {
-            title: 'Homepage Friction',
-            body: "Valuable homepage real estate was being wasted by tutorials that weren't widely used. As software that tracks goals and work, users wanted a dashboard to clearly get a high-level view of their programs and status.",
-            image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/62e44e8a-02a0-4fe3-a647-bd1461cb37b2/Old_ObjectivesTreeHomepage.png',
-          },
-          {
+            label: 'Objectives Tree Confusion',
             title: 'Objectives Tree Confusion',
             body: 'Users needed clearer visual hierarchy and status indicators across strategic goals. The existing tree structure lacked the visual language to communicate progress and dependencies at a glance.',
+            image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/62e44e8a-02a0-4fe3-a647-bd1461cb37b2/Old_ObjectivesTreeHomepage.png',
           },
         ],
       },
       {
         label: 'Design System',
         title: 'Adopting Atlassian\'s navigation pattern',
-        body: '"Adopting navigation, a core piece of the Atlassian experience allows us to take advantage of previous work and give us a good base to start from for future projects."\n\nSwitching to Atlassian\'s horizontal navigation system immediately reduced cognitive load by aligning Jira Align with the broader ecosystem users already knew.',
-        image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/83069413-05cd-41a5-8705-4eabadb62df9/Screenshot+2025-12-04+at+1.19.19%E2%80%AFPM.png',
+        body: 'Adopting navigation, a core piece of the Atlassian experience allows us to take advantage of previous work and give us a good base to start from for future projects.\n\nSwitching to Atlassian\'s horizontal navigation system immediately reduced cognitive load by aligning Jira Align with the broader ecosystem users already knew.',
+      },
+      {
+        layout: 'feature-grid',
+        label: 'Goals',
+        title: 'Goals',
+        body: '',
+        cards: [
+          {
+            icon: '🎨',
+            title: 'Brand Cohesion',
+            body: 'Align Jira Align with Atlassian\'s design system for a unified visual and interaction model.',
+          },
+          {
+            icon: '⚡',
+            title: 'Faster Time-to-Task',
+            body: 'Streamline navigation and workflows to reduce effort and time.',
+          },
+          {
+            icon: '🔌',
+            title: 'Reliable Connectivity',
+            body: 'Strengthen the cross-product flows with Jira Software.',
+          },
+          {
+            icon: '🏗️',
+            title: 'Modern Architecture',
+            body: 'Transition to a more stable, scaleable codebase.',
+          },
+        ],
       },
       {
         label: 'Why It Mattered',
         title: 'Why it mattered',
         body: 'Jira Align was originally designed for highly experienced, long-term users who already understood the system. Over time, that created complexity, fragmentation, and inconsistent patterns that made it hard for new or occasional users to understand where to start or how to navigate the product with confidence.\n\nOur work focused on simplifying the experience — improving clarity from first impressions through day-to-day use. The goal was to make the product easier for everyone, regardless of experience level, and reduce the cognitive load that had built up across the interface.\n\n✅ Improved navigation and information clarity made key features easier to find and understand.\n✅ Unified, intuitive workflows brought Jira Align closer to the rest of the Atlassian ecosystem.\n✅ Enhanced accessibility and readability reduced support needs and supported compliance.',
+        embedUrl: 'https://embed.figma.com/proto/6Oq7lm8Fm1egbJPqkVPqKq/Untitled?page-id=0%3A1&node-id=1-1631&viewport=42%2C271%2C0.03&scaling=contain&content-scaling=fixed&starting-point-node-id=1%3A1631&embed-host=share',
       },
       {
         label: 'Product Improvements',
@@ -283,16 +435,19 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        layout: 'feature-grid',
         label: 'Before & After',
         title: 'Before & After',
         body: 'The homepage transformation — from a tutorial-heavy landing page to a dashboard that gives users immediate visibility into their programs and status.',
-        steps: [
+        cards: [
           {
+            icon: '📄',
             title: 'Before',
             body: 'Homepage dominated by tutorials and onboarding content. Key program data buried. Users required to navigate multiple levels to understand portfolio status.',
             image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/a7aa16ed-b7cb-4f4f-88cc-5f8e1b264170/%5BOLD%5D+Home+%2B+starred.png',
           },
           {
+            icon: '📊',
             title: 'After',
             body: 'Homepage redesigned as a true dashboard — starred programs, status at a glance, and a clear hierarchy that surfaces the right information to the right user immediately.',
             image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/63e7d868-7ead-48cb-b0b1-3af3a251b585/%5BNEW%5D+Home+%2B+starred.png',
@@ -300,32 +455,40 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        label: 'Closing',
+        label: 'Outcomes & Impact',
         title: '"Great design isn\'t just about pixels."',
         body: 'This work reminded me: great design isn\'t just about pixels. It\'s about alignment — between people, systems, and strategy.',
       },
     ],
   },
 
-  // ─── Virtual Try-On ──────────────────────────────────────────────────────────
+  // ─── NARS Virtual Try-On ─────────────────────────────────────────────────────
   {
     slug: 'virtual-tryon',
-    title: 'Virtual Try-On',
+    title: 'NARS Virtual Try-On',
     subtitle: 'Beauty tech + experience design',
     tags: ['Consumer', 'UX', 'Beauty', 'Design Sprint'],
     year: '2020',
     role: 'Lead UX Designer',
+    company: 'NARS',
     heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1590091436008-VX7VM6DIMG3DAOJK7JZ6/cover.png',
     sections: [
       {
-        title: 'Can we replace the need to try on products physically?',
+        title: 'Project Highlight',
         body: 'Virtual try-on technology promises to bridge the gap between digital and physical beauty retail. This project explored whether VTO could genuinely compete with in-store experiences — and what that product vision would look like.',
+      },
+      {
+        label: 'Solving for the "fear of the wrong shade"',
+        title: 'Solving for the "fear of the wrong shade"',
+      
+        body: 'The pandemic-induced shift to 100% e-commerce created a massive "confidence gap" for NARS customers. Without the ability to swatch products on skin, shoppers faced high decision anxiety regarding shade matching and finish accuracy, leading to decreased conversion and increased potential for returns. This project sought to determine if Augmented Reality (AR) could evolve from a digital novelty into a functional utility that provides the same psychological certainty as a physical store visit.',
       },
       {
         label: 'North Star Design Sprint',
         title: 'North Star Design Sprint',
         body: 'A North Star helps teams to clearly define goals, validate assumptions, and decide on a product roadmap before starting development or committing to a set of features. It seeks to address strategic issues using interdisciplinary, rapid prototyping, and user testing.\n\nI facilitated a remote design sprint because — COVID. It was great. I would say even more efficient than many design sprints I\'ve been a part of.\n\n**Process:** Created Miro Board guide · Independent work areas for participants · 2-day storyboards · 2 days documentation · Presented to NARS internal branding team.',
         image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1590093547011-B4HM47EEU5YDSOK9K8P2/Screen+Shot+2020-05-21+at+3.38.05+PM.png',
+        embedUrl: 'https://miro.com/app/live-embed/o9J_ku48GzU=/?embedMode=view_only_without_ui&moveToViewport=-7419,7512,4060,3334&embedId=554913942218',
       },
       {
         label: 'The Question & Goal',
@@ -334,64 +497,91 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         label: 'Process',
-        title: 'How Might We\'s, Storyboards & The Sprint',
-        body: 'The sprint process moved through rapid ideation, storyboarding, and prototype development — converging on a vision for VTO as a personalization, social, and education platform rather than a simple product-selection tool.\n\nRead the full NARS Northstar story →',
-        features: [
-          {
-            title: 'How Might We\'s',
-            body: 'Generated opportunity statements across personalization, education, social connection, and in-store parity — framing the design space before any solutions were considered.',
-          },
-          {
-            title: 'Storyboards',
-            body: 'Two days of independent storyboarding produced multiple competing visions for the VTO experience, each grounded in a distinct user motivation.',
-          },
-          {
-            title: 'The Sprint',
-            body: 'Converged on the strongest concepts through dot voting and structured critique. Output: a testable prototype and a north star product vision presented to the NARS internal branding team.',
-          },
-          {
-            title: 'Prototype of Northstar',
-            body: 'Interactive prototype built to test the north star concept with real users — validating whether VTO could deliver the personalization and social experience the brand wanted.',
-          },
-        ],
+        title: 'How Might We\'s',
+        body: 'Generated opportunity statements across personalization, education, social connection, and in-store parity — framing the design space before any solutions were considered.',
+        images: ['/NarsHMWBoard.png', '/Nars_HMW.jpg'],
+      },
+      {
+        label: 'Sketch & Decide',
+        title: 'Storyboards',
+        body: 'Two days of independent storyboarding produced multiple competing visions for the VTO experience, each grounded in a distinct user motivation.',
+        images: ['/Nars_RemoteDesignSprint.jpg', '/Nars_Storys.png'],
+      },
+      {
+        label: 'Process',
+        title: 'The Sprint',
+        body: 'Converged on the strongest concepts through dot voting and structured critique. Output: a testable prototype and a north star product vision presented to the NARS internal branding team.',
+        images: ['/Crazy8.jpg', '/NarsVTOCategories.jpg', '/Nars_turnHead.jpg', '/Nars_RemoteDesignSprint.png'],
+      },
+      {
+        label: 'Process',
+        title: 'Prototype of Northstar',
+        body: 'Interactive prototype built to test the north star concept with real users — validating whether VTO could deliver the personalization and social experience the brand wanted.',
+        gifs: ['/VTO_1.gif', '/VTO_2.gif'],
       },
     ],
   },
 
   // ─── Ingest ──────────────────────────────────────────────────────────────────
   {
-    slug: 'ingest',
-    title: 'Ingest',
-    subtitle: 'Getting data into the product',
-    tags: ['SaaS', 'Enterprise', 'Workflows', 'Legal Tech'],
-    year: '2018 – 2020',
+    slug: 'disco-ingest',
+    title: 'DISCO Ingest',
+    subtitle: 'Ingest 14 TB of data — high-speed uploader',
+    tags: ['Legal Tech', 'Enterprise', 'SaaS'],
+    year: '2019',
     role: 'Senior Product Designer',
-    heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1567646340649-RORBBX2Y80EEKEU3K6GC/Ingest%2Bhero.jpg?format=1000w',
+    company: 'DISCO',
+    heroImage: '/Ingest hero.png',
     sections: [
       {
+        label: 'PROJECT OVERVIEW',
         title: 'Getting data into the product',
         body: 'DISCO handles uploads and collections of databases through a mail service. A company wanting to import data into DISCO would manually send hardware through FedEx to our Data-ops team — a process that was timely, costly, and completely opaque to the customer.\n\nProviding a platform where users can upload and remediate their own data allows users to load data directly into their database without delays of sending data via hard drive or FTP.',
-        image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1599769589099-319J0AITX46T6RK1OOIF/Screen%2BShot%2B2020-09-10%2Bat%2B3.25.01%2BPM.jpg',
+        image: '/Ingest_design_strategy.png',
       },
       {
+        layout: 'split',
+        imagePosition: 'right',
         label: 'Problem',
         title: 'The Problem',
         body: 'The existing ingest process was entirely manual — hardware mailed via FedEx, a support team running a remediation runbook, and customers left completely in the dark.',
         image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1592242330945-NKTR8O4179774S2OF56Z/Screen+Shot+2020-06-15+at+11.38.05+AM.png',
         features: [
-          { title: 'Getting data ingested without going through data ops (no FedEx)' },
-          { title: 'No visibility into status once data was shipped' },
-          { title: 'Ingest report was an Excel sheet — no in-product feedback' },
-          { title: 'Inability to edit ingested documents with errors yourself' },
-          { title: 'Overlay requests (replacing/updating values) required a support ticket' },
+          {
+            emoji: '🚚',
+            title: 'Getting data ingested without going through data ops (no FedEx)',
+            body: 'Eliminate the dependency on physical hardware shipping and manual data operations intervention.',
+          },
+          {
+            emoji: '👁️',
+            title: 'No visibility into status once data was shipped',
+            body: 'Customers were left in the dark about their data status after mailing hardware.',
+          },
+          {
+            emoji: '📋',
+            title: 'Ingest report was an Excel sheet — no in-product feedback',
+            body: 'No real-time feedback loop within the product to track progress or issues.',
+          },
+          {
+            emoji: '✏️',
+            title: 'Inability to edit ingested documents with errors yourself',
+            body: 'Users couldn\'t fix errors directly, requiring support intervention for every issue.',
+          },
+          {
+            emoji: '🎫',
+            title: 'Overlay requests (replacing/updating values) required a support ticket',
+            body: 'Simple data updates required opening support tickets instead of self-service.',
+          },
         ],
       },
       {
-        label: 'Discovery',
+        label: 'RESEARCH',
         title: 'Discovery',
         body: 'No other e-discovery tool in the market allows clients to upload data directly into their system through a cloud-based system. We had many clients request this capability. Due to the high volume of requests, we were given the green light to create a tool called the "High Speed Uploader."\n\nAfter launching we received lots of admiration and excitement to push the technology even further. We did **discovery research** with CS DISCO Data-ops team and several internal and external customers. During **journey mapping** sessions and client outreach, participants shared their current processes — and it became clear that being able to self-remediate files on the client side was a huge priority. Support from executives was so strong that self-remediation became a must-have on the product roadmap.',
       },
       {
+        layout: 'split',
+        imagePosition: 'right',
         label: 'Research',
         title: 'Becoming an expert on load files',
         body: 'I had many sessions reviewing and transcribing a manual process created by Data Ops. A lot of my preliminary research involved bringing to light current processes, transcribing, and creating documentation. This technical grounding was essential — it\'s impossible to design for a workflow you don\'t fully understand.',
@@ -413,6 +603,39 @@ export const caseStudies: CaseStudy[] = [
         title: 'Research goals & synthesis',
         body: 'Conducted remote and onsite user interviews and gathered valuable feedback to enhance usability. Documented findings and patterns across multiple studies, and made recommendations based on synthesis.',
         image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1599770522225-VUDY0C54ADTFKHRQGC1U/Goals.png',
+        caption: 'Conducted remote and onsite user interviews and gathered valuable feedback and enhanced usability.',
+      },
+      {
+        label: 'Research',
+        title: 'SYNTHESIS',
+        body: 'Documenting our findings and patterns amongst multiple different studies, Made recommendations based off of our synthesis.',
+        layout: 'gallery',
+        images: [
+          '/CSDisco_Synthesis.jpg',
+          '/CSDisco_Synthesis2.jpg',
+          '/CSDisco1.jpg',
+          '/CSDisco2.jpg',
+          '/CSDisco3.jpg',
+        ],
+      },
+      {
+        label: 'Research',
+        title: 'Highlight reel',
+        body: 'Created insight-driven highlight reels from customer interviews and prototype testing sessions to surface recurring themes, validate usability concerns, and align cross-functional stakeholders around real customer behavior.',
+        embedUrl: 'https://player.vimeo.com/video/357960596?h=3297228d2a&badge=0&autopause=0&player_id=0&app_id=58479',
+      },
+      {
+        label: 'OUTCOMES',
+        title: 'Outcomes',
+        body: '',
+        featureLayout: 'accordion',
+        features: [
+          { title: 'Reduced debate/opinion-driven decisions' },
+          { title: 'Accelerated prioritization' },
+          { title: 'Increased stakeholder empathy' },
+          { title: 'Clarified product direction' },
+          { title: 'Validated assumptions before engineering investment' },
+        ],
       },
       {
         label: 'Results',
@@ -432,6 +655,17 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        label: 'FINAL DESIGN',
+        title: 'Handoff',
+        body: 'With an updated design implemented and our first type of ingest (native ingest) was released to our first set of external clients. Extremely positive feedback flowed back, and the desire from clients for the full self remediation version was strong. Leadership encouraged us to push forward quickly.\n\nWith the final study findings compiled, I updated the final prototype in Invision and delivered design specifications to our engineering team. We reviewed the spec, and the team delivered an MVP to customers a few months later.',
+        embedUrl: 'https://player.vimeo.com/video/357961112?h=340abd5dee&badge=0&autopause=0&player_id=0&app_id=58479',
+      },
+      {
+        label: 'FINAL DESIGN',
+        title: 'Download Case Study',
+        body: '<a href="https://go.csdisco.com/l/478782/2019-06-12/5dm5g/478782/78887/DISCO_High_Speed_Uploader_case_study.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 bg-zinc-900 text-white px-6 py-3 rounded-full font-semibold hover:bg-zinc-800 transition">Download case study & view press release →</a>',
+      },
+      {
         label: 'Client Testimonial',
         title: '"DISCO\'s review platform is amazing."',
         body: '"DISCO\'s review platform is amazing. DISCO AI, its ECA capabilities and their high-speed uploader were crucial in reviewing the mind-blowing 14 TB of data for our client quickly and efficiently."\n\n— **Simon Meiklejohn**, Associate Director, Legal Solutions, Asia Pacific, Exigent',
@@ -442,6 +676,12 @@ export const caseStudies: CaseStudy[] = [
         body: 'After ingest launched we kicked off a North Star design sprint to align and understand how the future of getting information in and out of DISCO might look like.\n\nNorth star design sprint for all things self-service in our application — gathering of the minds to ideate product offerings for self-service uploading, reporting, billing, and matter creation.',
         image: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1592242064570-A4V1NCP7T89DHCN6VD4J/Screen+Shot+2020-06-15+at+12.26.35+PM.png',
       },
+      {
+        label: 'FINAL DESIGN',
+        title: 'Prototype story',
+        body: 'North star design sprint for all things self-service in our application. Gathering of the minds to ideate product offerings for self-service uploading, reporting, billing, and matter creation.',
+        embedUrl: 'https://player.vimeo.com/video/357973048?h=c08313bd23&badge=0&autopause=0&player_id=0&app_id=58479',
+      },
     ],
   },
 
@@ -449,10 +689,11 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'documentation',
     title: 'Documentation',
-    subtitle: 'Specifying the ingest UX — current state to future state',
+    subtitle: 'Case study · Interaction Design · E2E',
     tags: ['DevTools', 'IA', 'Documentation', 'Spec Work'],
     year: '2019',
     role: 'Senior Product Designer',
+    company: 'DISCO',
     heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1568840205582-8NO8R1EAD9LXMFJFT3II/1.png?format=1000w',
     sections: [
       {
@@ -491,10 +732,11 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'crossmatter-ai-models',
     title: 'Cross-Matter AI Models',
-    subtitle: 'AI-assisted discovery + enterprise workflows',
+    subtitle: 'AI assisted discovery · Systems design',
     tags: ['AI', 'Enterprise', 'SaaS', 'Legal Tech'],
     year: '2019',
     role: 'Senior Product Designer',
+    company: 'DISCO',
     heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1567646420292-PWC587Y3ZCU4CD914ENG/modelsharing_hero.png?format=1000w',
     sections: [
       {
@@ -558,10 +800,11 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'topic-clustering',
     title: 'Topic Clustering',
-    subtitle: 'AI-assisted visual search + pattern discovery',
+    subtitle: 'AI assisted visual search · Systems design',
     tags: ['AI', 'Enterprise', 'Discovery', 'Legal Tech'],
     year: '2019',
     role: 'Senior Product Designer',
+    company: 'DISCO',
     heroImage: 'https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1567646464408-NF0WV1O3EEKP0IUJ3FOS/topic_clustering_hero.png?format=1000w',
     sections: [
       {

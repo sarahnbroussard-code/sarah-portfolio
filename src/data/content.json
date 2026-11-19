@@ -1,0 +1,141 @@
+{
+  "home": {
+    "hero": {
+      "kicker": "Product Design Leader",
+      "name": "Sarah Broussard",
+      "tags": "Enterprise · SaaS · AI · Design Strategy",
+      "taglineLine1": "15 years shipping enterprise software.",
+      "taglineLine2": "Still picking food off my shirt.",
+      "photo": "/sarah-photo.png"
+    },
+    "marquee": ["Atlassian", "CS DISCO", "Shiseido", "F44", "Sweatpals", "Full Story", "Nars", "IDERA", "AgileCraft"],
+    "about": {
+      "kicker": "About",
+      "body": "Lead Product Designer with **15+ years** driving enterprise and SaaS product strategy across AI, legal tech, beauty, and developer tools. I partner with product, engineering, and business leadership to turn ambiguous, complex problems into experiences that **drive adoption, reduce churn, and scale.** My work has contributed to two publicly traded companies and one acquisition — and I've shipped across healthcare, fintech, enterprise software, and consumer platforms."
+    },
+    "stats": {
+      "kicker": "By the numbers",
+      "items": [
+        { "value": "15+", "label": "Years Experience", "sublabelLine1": "Enterprise & SaaS", "sublabelLine2": "product design leadership" },
+        { "value": "2", "label": "Public / IPO Companies", "sublabelLine1": "Atlassian (NASDAQ: TEAM)", "sublabelLine2": "CS DISCO (IPO 2021, ~$2.2B)" },
+        { "value": "1", "label": "Acquisition", "sublabelLine1": "AgileCraft → Atlassian (2019)", "sublabelLine2": "Became Jira Align" },
+        { "value": "$2.2B", "label": "CS DISCO Valuation", "sublabelLine1": "IPO 2021", "sublabelLine2": "Legal tech platform" },
+        { "value": "60+", "label": "Enterprise Products", "sublabelLine1": "IDERA Software", "sublabelLine2": "Design leadership" }
+      ]
+    },
+    "experience": {
+      "kicker": "Professional Experience",
+      "eyebrow": "Selected companies",
+      "resumeLabel": "Show Earlier Experience",
+      "resumeHref": "/resume.pdf",
+      "entries": [
+        { "company": "Atlassian", "role": "Senior Product Designer — Jira Align", "years": "2021 — Present", "badges": [{ "text": "NASDAQ: TEAM", "prominent": true }] },
+        { "company": "FullStory", "role": "Senior Product Designer", "years": "2020 — 2021", "badges": [{ "text": "$1.8B Valuation", "prominent": false }] },
+        { "company": "Shiseido", "role": "Senior Product Designer", "years": "2019 — 2020", "badges": [{ "text": "Global Brand", "prominent": false }, { "text": "TYO: 4911", "prominent": false }] },
+        { "company": "CS DISCO", "role": "Senior Product Designer", "years": "2016 — 2019", "badges": [{ "text": "IPO 2021", "prominent": true }, { "text": "NYSE: LAW", "prominent": true }, { "text": "$2.2B Valuation", "prominent": false }] }
+      ]
+    },
+    "cta": {
+      "kicker": "Ready to go deeper?",
+      "headline": "Explore the full experience.",
+      "primaryBtn": { "label": "View case studies", "to": "/experience" },
+      "secondaryBtn": { "label": "View Detailed Experience", "href": "/resume.pdf" },
+      "contact": [
+        { "label": "Email", "href": "mailto:sarah.n.broussard@gmail.com" },
+        { "label": "LinkedIn", "href": "https://linkedin.com/in/sarah-broussard-2b678912" },
+        { "label": "Instagram", "href": "https://www.instagram.com/sarah_broussard/" }
+      ]
+    }
+  },
+
+  "experience": {
+    "hero": {
+      "kicker": "EXPERIENCE",
+      "headline": "See how I've turned ideas into reality. Take a look at stories behind successful products and brands."
+    }
+  },
+
+  "services": {
+    "hero": {
+      "kicker": "SERVICES",
+      "headline": "Get strategic UX & product design without the agency price tag.",
+      "subtitle": "I help transform digital products with expert UX design — no agency markup.",
+      "ctaLabel": "Book a free discovery call"
+    },
+    "coreServices": {
+      "kicker": "CORE DESIGN SERVICES",
+      "heading": "Strategic design solutions for every stage",
+      "items": [
+        {
+          "goal": "Diagnose & Discover",
+          "items": [
+            "Usability check – Find out what's confusing your users.",
+            "Experience audit – Get a detailed review with actionable fixes.",
+            "Customer feedback – Learn directly from your customers.",
+            "Competitive comparison – See how you stack up against others."
+          ]
+        },
+        {
+          "goal": "Improve & Redesign",
+          "items": [
+            "Website refresh (Basic & Full) – From light updates to full redesigns.",
+            "Visual updates – Modernize the look and feel.",
+            "Customer journey improvements – Make navigation easier and engagement stronger.",
+            "Screen designs – Professional, polished page designs."
+          ]
+        },
+        {
+          "goal": "Test & Scale",
+          "items": [
+            "Landing pages that convert – Pages that drive action.",
+            "Growth-focused design – Boost leads, sales, or sign-ups.",
+            "Prototyping & testing – Gather real user feedback.",
+            "Consistent look & feel – Ensure everything stays polished and on-brand."
+          ]
+        }
+      ]
+    },
+    "packages": {
+      "kicker": "PACKAGES AND RATES",
+      "heading": "Budget-friendly options",
+      "ctaLabel": "Let's chat",
+      "items": [
+        { "name": "Quick UX Wins", "price": "starting at $2.5k", "badge": "Most popular", "items": ["UX Audit → Actionable recommendations in a week.", "UX Research Study → Real user insights for better conversion.", "Rapid Design Experiments → Homepage redesigns, A/B tests, and fast iterations for conversion wins."] },
+        { "name": "Redesign Packages", "price": "starting at $5k", "badge": "Long-term impact", "items": ["Essentials → Lean UX approach that uses existing data and insights (no new research or testing cycles).", "Comprehensive → Full UX process that includes research and usability testing to validate decisions."] },
+        { "name": "Ongoing Support", "price": "pricing varies", "badge": null, "items": ["UX Retainer → Ongoing strategy + design support.", "Hourly Support → Flexible help for smaller needs."] }
+      ]
+    },
+    "whyWorkWithMe": {
+      "kicker": "WHY WORK WITH ME",
+      "heading": "Strategic design that drives results",
+      "items": [
+        { "title": "Tailored, business-driven UX", "description": "Not just aesthetics—real impact on engagement & conversion." },
+        { "title": "Efficiency & flexibility", "description": "No bloated agency processes, no junior hand-offs." },
+        { "title": "Strategic guidance", "description": "I don't just execute—I help you make smarter UX decisions." },
+        { "title": "A true partner", "description": "I collaborate, adapt, and find the right solutions for your budget & goals." }
+      ]
+    },
+    "faqs": {
+      "kicker": "FREQUENTLY ASKED QUESTIONS",
+      "heading": "FAQs",
+      "items": [
+        { "question": "How do I know which service is right for me?", "answer": "During our free discovery call, I'll assess your needs, goals, and project scope to recommend the best fit. Each package is designed for different stages—from quick wins to comprehensive redesigns." },
+        { "question": "How does payment work?", "answer": "I typically work with a 50% deposit to start and 50% on delivery. For ongoing support, we can set up monthly retainer arrangements. All terms are clearly outlined in the Scope of Work." },
+        { "question": "I have a limited budget—can I still work with you?", "answer": "Absolutely. I offer flexible options including the Quick UX Wins package starting at $2.5k, and hourly support for smaller needs. Let's discuss your budget during our discovery call to find the right approach." },
+        { "question": "Why does UX cost this much? Can't I get it cheaper elsewhere?", "answer": "Good UX is an investment, not an expense. It directly impacts conversion, retention, and customer satisfaction. My pricing reflects senior-level expertise without agency overhead—you get strategic guidance and polished deliverables that drive measurable results." },
+        { "question": "What's the timeline for a typical project?", "answer": "Timelines vary by scope. Quick UX Wins typically complete in 1-2 weeks, redesign packages range from 4-8 weeks depending on complexity. I'll provide a detailed timeline in your proposal." },
+        { "question": "Do you do branding or coding?", "answer": "I focus on UX and product design. For branding, I can collaborate with your brand team or recommend partners. For coding, I work closely with developers and provide design specs, but development is typically handled by your team or a partner agency." },
+        { "question": "Why should I hire you over using AI myself?", "answer": "AI is a powerful tool, and I use it extensively in my workflow. But AI lacks strategic context, business understanding, and the ability to navigate complex stakeholder dynamics. I bring 15+ years of experience, strategic thinking, and a human-centered approach that AI alone can't match." },
+        { "question": "Do you use AI in your workflow?", "answer": "Yes! I leverage AI tools for research synthesis, rapid prototyping, and ideation. This allows me to deliver results faster and explore more concepts. However, all strategic decisions and final deliverables are crafted with human expertise and quality assurance." },
+        { "question": "How involved do I need to be in the process?", "answer": "I believe in collaboration. You'll be involved at key checkpoints—discovery, concept review, and delivery. The level of involvement is flexible based on your preference and availability. I keep communication clear and efficient." },
+        { "question": "Wait... how do I know if I even need UX help?", "answer": "Signs you might need UX help: users are confused by your interface, conversion rates are low, customer feedback mentions usability issues, or you're launching a new product. Even if you're unsure, a free discovery call can help identify opportunities." }
+      ]
+    },
+    "bottomCta": {
+      "headline": "Ready to transform your product?",
+      "body": "Let's discuss how we can work together to achieve your design goals.",
+      "primaryCta": "Book a free discovery call",
+      "secondaryCta": "View Case Studies"
+    }
+  }
+}

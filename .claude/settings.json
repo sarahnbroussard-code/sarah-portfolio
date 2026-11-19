@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Netlify__netlify-deploy-services-reader",
+      "Read(//Users/sarahbroussard/Downloads/**)",
+      "Bash(awk '/slug: .jira-align-1./,/^  \\\\},$/' /Users/sarahbroussard/CascadeProjects/sarah-portfolioV2/src/data/caseStudies.ts)",
+      "Read(//Users/sarahbroussard/CascadeProjects/**)",
+      "mcp__claude_ai_Figma__get_screenshot",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.squarespace-cdn.com/content/v1/5914b0b5ebbd1a1ee79dbf3e/1590093547011-B4HM47EEU5YDSOK9K8P2/Screen+Shot+2020-05-21+at+3.38.05+PM.png\")",
+      "WebFetch(domain:sarahbroussard.com)",
+      "Bash(netlify --version)",
+      "Bash(netlify deploy *)"
+    ],
+    "additionalDirectories": [
+      "/Users/sarahbroussard/CascadeProjects/sarah-portfolio/public"
+    ]
+  }
+}

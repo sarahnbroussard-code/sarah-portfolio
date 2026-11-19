@@ -10,6 +10,9 @@ export default {
         tablet: '768px',
         desktop: '1100px',
       },
+      maxWidth: {
+        content: '1200px',
+      },
     },
   },
   plugins: [],
